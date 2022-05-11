@@ -28,12 +28,46 @@ public class A02_Constructor {
 						super(name); // 반드시 상위에 있는 생성자 호출
 					}
 				}
+			# 부모 없는 자식이 없듯이 부모의 생성자가 선언되면 반드시 해당 생성자를 호출하여야 한다.
+			
+			
 		 */
 		Daughter01 d1 = new Daughter01("김희선");
 		d1.call();
+		// ex) Worker 직종을 할당하는 생성자 선언
+		// Developer로 Worker를 상속 받아서 해당 직종을 처리하고 showMyjob() 기능 메서드를 통해 출력하게 하세요.
+		Developer dv1 = new Developer("개발자");
+		dv1.showMyJob();
+		Developer dv2 = new Developer();
+		dv2.showMyJob();
+		dv2.showJob();
+		dv1.showMyJob();
 
 	}
 
+}
+class Worker{
+	private String job;
+	public String getJob() {
+		return job;
+	}
+	Worker(String job){
+		this.job = job;
+	}
+	void showMyJob() {
+		System.out.println(job);
+	}
+}
+class Developer extends Worker{
+	public Developer() {
+		super("프로그래밍 개발자");
+	}
+	public Developer(String job){
+		super(job);
+	}
+	public void showJob() {
+		System.out.println("직업 : " + getJob());
+	}
 }
 class Mother01{
 	String name;
