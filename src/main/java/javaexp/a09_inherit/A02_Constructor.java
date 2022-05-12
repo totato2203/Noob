@@ -5,7 +5,8 @@ public class A02_Constructor {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		/*
-		# 부모 생성자 호출 : super()
+		# 부모 생성자 호출 : super() cf) super(상속의 상위지칭), this(현재 클래스 지칭)
+		
 		1. 상속하는 클래스는 부모의 생성자를 반드시 호출하여야 한다.
 			1) default 생성자는 기본적 default 생성자를 호출하기 때문에 선언하지 않더라도 에러가 없다.
 				- 자바의 모든 클래스는 extends Object로 상속을 받아서 처리한다.

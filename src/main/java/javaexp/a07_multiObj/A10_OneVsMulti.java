@@ -1,5 +1,7 @@
 package javaexp.a07_multiObj;
 
+import java.util.ArrayList;
+
 //해당 패키지 안에 있는 모든 클래스를 객체화하여 사용 가능
 import javaexp.z03_vo.*;
 
@@ -46,8 +48,8 @@ public class A10_OneVsMulti {
 		5. 구현 순서
 			1) 다중으로 처리한 종속된 단위 객체를 위한 클래스 선언
 			2) 해당 다중 객체를 포함할 클래스 선언
-				- 필드
-				- 초기 생성자 설정
+				- 필드 : 사용된 속성, ArrayList<단위객체>
+				- 초기 생성자 설정 : 속성값 초기화, ArrayList<단위객체> 객체 생성
 				- 다중의 데이터 처리할 입력 메서드 선언
 				- 1:다 관계로 출력하거나 리턴할 객체 선언
 		 */
@@ -76,6 +78,13 @@ public class A10_OneVsMulti {
 		BTeam t = new BTeam("한화");
 		t.showTeamList();
 		// BPlayer(int num, String name, String birth)
+		ArrayList<BPlayer> blist = new ArrayList<BPlayer>();
+		blist.add(new BPlayer());
+		blist.add(new BPlayer());
+		blist.add(new BPlayer());
+		
+		
+		
 		t.addPlayer(new BPlayer(1, "류현진", "881010"));
 		t.addPlayer(new BPlayer(2, "야잘알", "850505"));
 		t.addPlayer(new BPlayer(3, "야알못", "810707"));

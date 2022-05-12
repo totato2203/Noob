@@ -18,6 +18,7 @@ public class A03_Overriding {
 		3. @Override 어노테이션
 			컴파일러에게 부모 클래스의 메소드 선언부와 동일한지 검사 지시
 			정확한 메소드 재정의를 위해 붙여주면 된다.
+			ex) 해당 내용을 선언하고, 오기나 잘못된 메소드 표기 시 오버라이딩 할 때까지 에러가 표기된다.
 		4. 메소드 재정의 효과
 			1) 부모 메소드는 숨겨지는 효과 발생
 				- 재정의된 자식 메소드 실행
@@ -62,8 +63,13 @@ class SamsungEle extends Company {
 	public SamsungEle() {
 		super("삼성전자");
 	}
+	// @Override를 선언하면 재정의 메서드인지를 확인하여 컴파일 시 체크해준다.
+	@Override // earnMoney()는 오버라이딩 문법이 맞기 때문에 에러가 발생하지 않는다.
+	// 만약 earnMoney()가 아닌 earnMoney01() 이었다면 오버라이딩 문법에 맞지 않아 에러 발생
 	public void earnMoney() {
 		super.earnMoney();
+		// 재정의 하였기 때문에 부모클래스가 선언한 메서드와 동일한 메서드를 가지고 있다.
+		// 부모의 메서드 내용을 구분하여 호출할 때, super.를 활용한다.
 		System.out.println("삼성전자에서 반도체 만들며 돈 법니다!");
 	}
 }
