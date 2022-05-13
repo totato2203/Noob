@@ -1,8 +1,6 @@
 package javaexp.a08_access;
 
-import javaexp.a08_access.a01_friendship.Deer;
 import javaexp.a08_access.a01_friendship.WoodCutter;
-// public 이라도 외부 패키지에 있는 클래스는 import 또는 
 
 public class A00_Hunter {
 

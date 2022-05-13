@@ -1,8 +1,6 @@
 package javaexp.a07_multiObj;
 
 import java.util.ArrayList;
-
-//해당 패키지 안에 있는 모든 클래스를 객체화하여 사용 가능
 import javaexp.z03_vo.*;
 
 public class A10_OneVsMulti {

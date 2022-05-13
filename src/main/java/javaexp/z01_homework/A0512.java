@@ -51,6 +51,7 @@ public class A0512 {
 //					Duck클래스에 SoundWay를 필드로 선언 setSound(SoundWay sw)를 통해서 할당하고
 //					duckSound()메서드를 통해서 출력처리하게 하세요.
 		Duck ds = new Duck();
+		ds.duckSound();
 		ds.setSound(new NormalSound());
 		ds.duckSound();
 		ds.setSound(new EleSound());
@@ -65,7 +66,12 @@ class Duck{
 		this.sw = sw;
 	}
 	public void duckSound() {
-		sw.sound();
+		System.out.println("# 오리가 소리를 냅니다. #");
+		if(sw != null) {
+			sw.sound();
+		}else {
+			System.out.println("소리를 내지 못합니다.");
+		}
 	}
 }
 interface SoundWay {
