@@ -17,7 +17,7 @@ public class A03_String {
 		2. 문자열의 일반적인 데이터 생성 형태는 내부적으로 new String()으로 사용된다.
 			ps) 데이터베이스에서 데이터를 가지고 오거나 Scanner 혹은 네트워크를 통해서
 			문자열 데이터를 가지고 올 때 아래 형식으로 가져오게 된다.
-			새로운 heap 영역에 메모리를 만들어 문자열 객체를를
+			새로운 heap 영역에 메모리를 만들어 문자열 객체를 생성한다.
 		 */
 		String name03 = new String("홍길동");
 		String name04 = new String("홍길동");
