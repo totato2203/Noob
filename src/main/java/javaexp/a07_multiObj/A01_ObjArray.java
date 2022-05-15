@@ -25,6 +25,10 @@ public class A01_ObjArray {
 		tot += arr1[2].showInfo();
 		System.out.println("총 점수 : " + tot);
 		
+		// ex) Fruit 필드 : 과일종류, 가격
+		//			생성자 : 필드값 초기
+		//			메서드 show() : 종류와 가격 출력
+		//	배열로 3개를 선언 및 할당, show() 호출
 		Fruit []arr2 = new Fruit[3];
 		arr2[0] = new Fruit("사과", 3000);
 		arr2[1] = new Fruit("바나나", 4000);
@@ -58,10 +62,6 @@ public class A01_ObjArray {
 		}
 		
 	}
-	// ex) Fruit 필드 : 과일종류, 가격
-	//			생성자 : 필드값 초기
-	//			메서드 show() : 종류와 가격 출력
-	//	배열로 3개를 선언 및 할당, show() 호출
 
 }
 class Computer {

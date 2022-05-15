@@ -7,11 +7,9 @@ public class RV0514 {
 		
 		// a05_reference
 		
-		
 		Apple ap = new Apple();
 		System.out.println(ap);
 		// heap 영역에 존재하는 객체 ap의 주소값 : javaexp.z01_homework.Apple@2f92e0f4
-		
 		
 		// 문자열을 바로 할당하면 비교연산자(==)로 비교 시 동일하게 처리되지만
 		// 문자열의 일반적인 데이터 생성 형태는 내부적으로 new String()으로 사용된다. ex) DB의 데이터 불러오기, Scnner 등..
@@ -25,13 +23,11 @@ public class RV0514 {
 		System.out.println("new String으로 할당한 경우(.equals()) : " + (name03.equals(name04))); // true
 		// 문자열 자체를 비교할 땐 .equals()를 활용해야 에러가 발생하지 않는다.
 		
-		
 		int[] array01 = {100, 200, 300};
 		System.out.println(array01[0] + array01[1] + array01[2]); // 100 + 200 + 300 = 600
 		String[] array02 = {"안", "녕", "하", "세", "요"};
 		System.out.println(array02[0] + array02[1] + array02[2] + array02[3] + array02[4]); // 안녕하세요
 
-		
 		int[][] gugudan = new int[10][10]; // 왜 [10][10]이지?
 		for(int idx = 2; idx <= 9; idx++) {
 			for(int jdx = 1; jdx <= 9; jdx++) {
@@ -45,6 +41,8 @@ public class RV0514 {
 			System.out.println();
 		}
 		
+		
+		// a06_class
 		
 		Apple ap01 = new Apple(); // ap01, ap02, ap03 :참조변수
 		Apple ap02 = new Apple(); // 생성자 default값 출력
