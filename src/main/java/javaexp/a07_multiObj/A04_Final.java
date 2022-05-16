@@ -55,6 +55,13 @@ public class A04_Final {
 			ex) static final double PI = 3.14;
 		3. 다른 단어가 결합되면 _로 연결
 			ex) static final String CUR_NATION = "한국";
+			
+		cf)
+		final class 클래스명{} : 상속하지 못하는 클래스 지정
+			ex) class 하위클래스 extends final 클래스명 {} (X)
+		final void call(){} : 하위에 재정의 하지 못하는 메서드 지정
+		==> 하위 클래스에서는 위 메서드를 재정의하지 못한다.
+			
 		 */
 		System.out.println("분야 : " + Player01.KIND);
 //		Player01.KIND = "축구선수"; 변경 불가능

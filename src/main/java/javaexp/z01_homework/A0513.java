@@ -38,15 +38,24 @@ public class A0513 {
 		// 일반적인 예외(Exception)보다 특별한 예외들(ArrayIndexOutOfBoundsException, NumberFormatException, ...)을 먼저 처리하도록 한다.
 		
 //		[1단계:확인] 2. args를 통해서 나올 수 있는 예외를 아래에 하나씩 처리하세요
-//		      1) args값을 입력하지 않았을 때.
-//		      2) args값의 배열의 범위를 넘어설 때.
+//		      1) args값을 입력하지 않았을 때. NullPointerException
+//		      2) args값의 배열의 범위를 넘어설 때. ArrayIndexOutOfBoundsException
 //		      3) args의 값 중에 숫자형 문자를 입력하여야 하는데 문자 자체를 입력했을 때.
 		try {
-			System.out.println(Integer.parseInt(args[3]));
+			for(int idx = 0; idx < args.length; idx++) {
+				String data = args[idx];
+				System.out.println(data);
+				// 입력값이 모두 숫자형 문자열일 때.
+				int num01 = Integer.parseInt(data);
+			}
+		}catch(NullPointerException npe) {
+			System.out.println("예외 1 : NullPointerException\n" + npe.getMessage()); // 1)의 경우에 출력됨
 		}catch(ArrayIndexOutOfBoundsException ae) {
-			System.out.println("예외1 : ArrayIndexOutOfBoundsException\n" + ae.getMessage()); // 1), 2)의 경우에 출력됨
+			System.out.println("예외2 : ArrayIndexOutOfBoundsException\n" + ae.getMessage()); // 2)의 경우에 출력됨
 		}catch(NumberFormatException nfe) {
-			System.out.println("예외2 : NumberFormatException\n" + nfe.getMessage()); // 3)의 경우에 출력됨
+			System.out.println("예외3 : NumberFormatException\n" + nfe.getMessage()); // 3)의 경우에 출력됨
+		}finally {
+			System.out.println("끝");
 		}
 		
 		
@@ -72,7 +81,7 @@ public class A0513 {
 			System.out.println("이름을 입력하세요(공백 입력 시 예외 발생) : ");
 			String name = sc.nextLine();
 			try {
-				if(name == null || name == " " || name == "") {
+				if(name == null || name.equals("")) {
 					throw new DBException("공백을 입력하여 예외가 발생했습니다.");
 				}else {
 					System.out.println("입력한 이름 : " + name);
@@ -80,6 +89,10 @@ public class A0513 {
 			}catch(DBException dbe) {
 				System.out.println(dbe.getMessage());
 				break;
+			}catch(Exception e) {
+				System.out.println("기타 예외 : " + e.getMessage());
+			}finally {
+				System.out.println("입력 완료");
 			}
 		}
 	}

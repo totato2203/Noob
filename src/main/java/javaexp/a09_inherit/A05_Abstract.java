@@ -35,7 +35,8 @@ public class A05_Abstract {
 		3. 기본 코드
 			1) 추상 클래스 선언
 				public abstract class 클래스명{
-					public abstract 리턴값 메소드명(){}
+					public abstract 리턴값 메소드명();
+					// 메소드명(); body({})가 없음, 하위 클래스에서 반드시 재정의 해야함.
 				}
 			2) 추상 클래스를 상속받은 하위 클래스(실체클래스)
 				class 클래스 extends 클래스명{

@@ -1,0 +1,40 @@
+# 데이터베이스 설치
+1. 설치파일 다운로드
+2. setup 파일 실행
+   1) 관리자계정의 비밀번호 : 1111로 입력
+   
+3. jdbc 드라이버 설정.
+   c:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib\ojdbc6.jar <- 복사 후
+   프로젝트 하위 
+   javaexp\src\main\webapp\WEB-INF\lib\ojdbc6.jar <- 붙여넣기
+
+4. 기본 sample 계정 및 sample 데이터 만들기
+   scott.sql : oraclexe 경로에서 가져올 수 있다.
+   c:\oraclexe\app\oracle\product\11.2.0\server\rdbms\admin\scott.sql <- 복사 후
+   C:\Users\사용자명 하위에 scott.sql <- 붙여넣기
+   
+5. scott.sql 열어서 2개의 TIGER -> tiger 로 변경
+   scott/tiger
+   tiger : 비밀번호 소문자로 변경
+   
+6. cmd에 sqlplus 입력으로 관리자 계정 접근 후
+   system/1111
+   
+   @scott.sql 입력으로
+   계정 및 sample 파일 생성.
+   
+   select * from emp;
+   
+7. eclipse 플러그인 프로그램
+   DBeaver 설치
+   
+   상단 툴바 Help -> Eclipse Marketplace -> DBeaver 22.0.4
+   -> DBeaver Debug만 체크
+   unsign, always~ 다 체크
+   restart 후에
+   오른쪽 open perspective로 DBeaver 실행
+
+8. 상단 툴바에 새로 생긴 데이터베이스(D) -> 새 데이터베이스 연결 -> 오라클
+   -> 우측 하단 Drive Setting -> libraries(두 번째 메뉴) -> 라이브러리 다 지우고
+   -> Add File -> src \ ~ \ WEB-INF -> ojdbc6.jar 선택
+   -> Connection type에 xe 입력 -> username에 scott 입력 -> password에 tiger 입력 -> finish   
