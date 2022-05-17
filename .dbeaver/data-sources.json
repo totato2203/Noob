@@ -4,7 +4,7 @@
 		"oracle_thin-180cbc26bc9-4afd6b3b7fdd750a": {
 			"provider": "oracle",
 			"driver": "oracle_thin",
-			"name": "localhost",
+			"name": "xe",
 			"save-password": true,
 			"read-only": false,
 			"configuration": {
@@ -28,7 +28,8 @@
 					"@dbeaver-connection-type@": "BASIC",
 					"@dbeaver-sid-service@": "SERVICE"
 				},
-				"auth-model": "oracle_native"
+				"auth-model": "oracle_native",
+				"handlers": {}
 			}
 		}
 	},

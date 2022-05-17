@@ -20,6 +20,22 @@ public class A0516 {
 		}
 		System.out.println();
 		
+		// 다른 방법
+		System.out.println((int)'A');
+		System.out.println((int)'Z'); // 65~90 : 코드 범위
+		char c[] = new char[26];
+		int idx = 0;
+		for(int code = 65; code <= 90; code++) {
+			c[idx++] = (char)code;
+		}
+		// char[] 배열을 String 생성자에 할당하면 문자열이 만들어진다.
+		String str = new String(c);
+		System.out.println(str);
+		for(int cnt = 1; cnt <= 4; cnt++) {
+			int rIdx = (int)(Math.random() * 26); // 0~25
+			System.out.println(str.charAt(rIdx));
+		}
+		
 //		[1단계:활용] 3. 과일명 5개가 나열된 문자열에서 해당 특정 과일명의 index위치를 추출하여 출력하세요.
 		String fruit = "apple banana orange kiwi melon";
 		System.out.println(fruit.indexOf("apple"));
