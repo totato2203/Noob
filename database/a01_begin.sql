@@ -78,7 +78,7 @@ SELECT * FROM emp;
 -- empno(사원번호), ename(사원명), job(직책), mgr(관리자번호),
 -- hiredate(입사일), sal(급여), comm(보너스), deptno(부서번호)
 -- ex1) 사원명 @@@의 사원번호는 @@@ 입니다. ename, empno를 활용하여 출력하세요.
-SELECT '사원명 ' || ename || '의 사원번호는 ' || empno || ' 입니다.' shwo
+SELECT '사원명 ' || ename || '의 사원번호는 ' || empno || ' 입니다.' show
 FROM emp;
 -- ex2) 사원명의 월급여(sal의 1/12)를 아래 형식으로 출력하세요. ename, sal
 --			@@@의 월급여는 @@ 입니다.
