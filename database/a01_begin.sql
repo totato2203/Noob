@@ -1,4 +1,13 @@
 /*
+# 데이터 sql 처리 파일
+1. 변경된 파일 바로 반영 :
+	상단 툴바 Window ==> Preferences ==> General
+	==> Workspace ==> refresh ... : check ==> Apply
+2. 저장 시, 확장자명을 .sql로 저장
+3. 상단 툴바에서 DB서버와 계정을 선택하고 적어 놓은 sql문을 실행할 수 있다.
+4. 새 파일 만들기 : 상단 툴바 SQL 편집기 ==> 새 SQL 편집기 클릭
+ */
+/*
 # 데이터 조회하기
 데이터는 SELECT 구문을 이용하여 저장된 데이터를 호출(query)할 수 있다.
 1. 기본 형식
@@ -7,10 +16,8 @@
 	FROM 테이블명
 	WHERE 조건
 */
-SELECT *
-FROM emp;
+SELECT * FROM emp;
 -- select ename, job, deptno
-FROM emp;
 -- ctrl + / (한줄 주석 단축키)
 -- ex1) dept 테이블의 전체 데이터를 검색
 -- ex2) emp 테이블의 empno, mgr, hiredate, deptno를 출력하세요.
@@ -42,6 +49,9 @@ FROM emp;
 SELECT e.empno, e.ename
 FROM emp e;	-- 테이블명은 한 칸 띄워 alias를 사용하여 처리한다.
 -- 전체 컬럼을 출력하고, 추가적으로 처리할 때는 아래와 같이 처리한다.
+SELECT  empno NO, *
+FROM emp; -- 실행 에러 발생 ==> 아래와 같이 처리한다.
+
 SELECT empno NO, e.*
 FROM emp e;
 -- 컬럼의 alias에 공백이나 허용되지 않는 특수문자를 사용할 때는 컬럼명 "alias명"으로 사용하여 처리한다.
@@ -56,9 +66,12 @@ FROM emp;
 /*
 # 데이터의 산출 연산 처리와 문자열 연결
 1. 숫자형 데이터가 있는 컬럼은 연산처리가 가능하다.
+	사칙연산자(+, -, *, /), %(지원하지 않음 - mod(데이터1, 데이터2) - 함수 파트에서 진행
+	
 */
 SELECT empno, empno + 10 "10더함", sal, sal * 0.5 "급여의 50%", deptno,
-		sal * (deptno / 100) "급여와 부서의 연산"
+		sal * (deptno / 100) "급여와 부서의 연산",
+		MOD(sal, deptno) "나머지"
 FROM emp;
 -- ex) 사원번호를 만단위체계로 바꾸기 위해 10000을 더하여 처리하고, sal와 comm을 합산하여 총급여로 표현하세요.
 SELECT empno, empno + 10000 "10000 더함", sal, comm, sal + COMM 총급여, sal + nvl(comm, 0) 총급여2

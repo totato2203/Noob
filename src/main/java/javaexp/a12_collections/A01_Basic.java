@@ -21,7 +21,7 @@ public class A01_Basic {
 			2) java.util 패키지에 포함되기 때문에 import 하여야 한다.
 			3) 인터페이스를 통해서 정형화된 방법으로 다양한 컬렉션 클래스를 이용할 수 있다.
 				List (상위)
-					ArrayList (하위)
+					ArrayList (하위) ** : spring의 DB에 저장된 데이터 처리
 					Vector (하위)
 					LinkedList (하위)
 		4. 인터페이스 분류
@@ -40,13 +40,13 @@ public class A01_Basic {
 			2) Vector : 쓰레드 환경에서 객체의 추가 / 삭제 처리가 가능하게 해준다.
 			3) LinkedList : 인접 참조를 링크해서 체인처럼 관리, 빈번한 객체 삭제와 삽입이 일어나는 곳에서 좋은 성능 발휘
 		3. 주요 기능 메소드
-			1) add() : 주어진 객체를 맨 끝에 추가
+			1) *add() : 주어진 객체를 맨 끝에 추가
 			2) add(index, 객체) : 주어진 객체를 특정한 인덱스 위치에 삽입
 			3) set(index, 객체) : 주어진 인덱스에 저장된 객체를 주어진 객체로 바꿈
 			4) contains(객체) : 해당 객체가 포함되어 있는지 여부
-			5) get(index) : 주어진 인덱스에 저장된 객체를 리턴
-			6) isEmpty() : 컬렉션이 비어 있는지 조사
-			7) size() : 저장되어 있는 전체 객체 수 리턴
+			5) *get(index) : 주어진 인덱스에 저장된 객체를 리턴
+			6) *isEmpty() : 컬렉션이 비어 있는지 조사
+			7) *size() : 저장되어 있는 전체 객체 수 리턴
 			8) clear() : 모든 객체 삭제
 			9) remove(index) : 특정 위치에 있는 객체 삭제
 		 */
@@ -125,7 +125,10 @@ class Member{
 		this.no = no;
 		this.name = name;
 	}
-	public void show() {
-		System.out.println(no + ", " + name);
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return no + "\t" + name;
 	}
+	
 }

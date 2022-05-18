@@ -64,6 +64,7 @@ public class A03_Wrapper {
 				Integer obj = 100; // 자동 박싱
 				List<Integer> list = new ArrayList<Integer>();
 				list.add(200);
+				// 원래는 list.add(new Integer("200"))으로 써야하지만
 		 */
 		// 자동박싱/자동언박싱 : 객체 데이터를 생성자, 객체 생성을 위한 기능 메소드를 통해서 객체를 생성하지만,
 		// Wrapper는 기본 데이터유형의 효과적인 활용을 위해서 조금 더 간편하게 객체를 생성할 수 있게

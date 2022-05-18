@@ -65,6 +65,13 @@ public class RV0515 {
 			pm.registerInfo(new PersonalInfo("홍길동", 25, "01012341234"));
 			pm.searchInfo();
 			
+			
+			FootballTeam ft = new FootballTeam("맨유");
+			ft.showList();
+			ft.addPlayer(new FootballPlayer("박지성", 40, 5));
+			ft.addPlayer(new FootballPlayer("김맨유", 34, 10));
+			ft.addPlayer(new FootballPlayer("최유맨", 29, 2));
+			ft.showList();
 
 	}
 
@@ -80,10 +87,13 @@ class FootballPlayer{
 		this.backNum = backNum;
 	}
 	public void showInfo() {
-		System.out.print("# " + name + " 선수 정보 #");
-		System.out.print("이름 : " + name + "\t");
-		System.out.print("나이 : " + age + "\t");
-		System.out.print("등번호 : " + backNum + "\n");
+		System.out.println("# " + name + " 선수 정보 #");
+		System.out.println("이름 : " + name);
+		System.out.println("나이 : " + age);
+		System.out.println("등번호 : " + backNum);
+	}
+	public String getName() {
+		return name;
 	}
 }
 class FootballTeam{
@@ -95,6 +105,20 @@ class FootballTeam{
 	public FootballTeam(String teamName) {
 		this.teamName = teamName;
 		plist = new ArrayList<FootballPlayer>();
+	}
+	public void addPlayer(FootballPlayer fp) {
+		plist.add(fp);
+		System.out.println(fp.getName() + " 선수의 정보를 등록했습니다.");
+	}
+	public void showList() {
+		if(plist.size() == 0) {
+			System.out.println(teamName + " 팀에 등록된 선수가 없습니다.");
+		}else {
+			System.out.println("# " + teamName + " 팀의 선수 정보 #");
+			for(FootballPlayer fp : plist) {
+				fp.showInfo();
+			}
+		}
 	}
 	
 }
