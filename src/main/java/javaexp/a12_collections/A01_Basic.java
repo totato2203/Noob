@@ -105,7 +105,8 @@ public class A01_Basic {
 		mlist.add(new Member(3000, "마길동"));
 		for(int idx = 0; idx < mlist.size(); idx++) {
 			Member m = mlist.get(idx);
-			System.out.println(m);
+			System.out.println(m.getNo() + " " + m.getName());
+			// 참조변수를 출력하면 toString()으로 재정의 한 내용이 출력 처리
 		}
 		System.out.println("두번째 자리에 멤버 추가");
 		mlist.add(1, new Member(4000, "오길동"));
@@ -124,6 +125,12 @@ class Member{
 		super();
 		this.no = no;
 		this.name = name;
+	}
+	public int getNo(){
+		return no;
+	}
+	public String getName() {
+		return name;
 	}
 	@Override
 	public String toString() {

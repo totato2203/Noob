@@ -154,7 +154,8 @@ WHERE to_char(hiredate) LIKE '81/04%'; -- 1981년 4월에 입사한 사람
 -- 직책이 MAN으로 끝나는 사원 정보
 SELECT *
 FROM emp
-WHERE job lilke '%MAN';
+WHERE job like '%MAN';
+
 SELECT *
 FROM emp;
 -- 직책의 3번째 자리에 E가 포함된 사원 정보

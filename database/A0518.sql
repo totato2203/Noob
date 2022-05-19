@@ -38,15 +38,25 @@ WHERE job LIKE '%A%'; -- A가 들어가는 직업을 가진
 SELECT *
 FROM emp
 WHERE job in(
-	SELECT job
+	SELECT DISTINCT job
 	FROM emp
-	WHERE hiredate LIKE '81%'
+	WHERE hiredate LIKE '81%' -- 자동으로 형변환이 일어나 날짜열 ==> 문자열
+	-- 주의 : 날짜형 데이터는 문자열로 저장된 게 아니라 날짜/시간 자체의 고유 정보를 가지고 있다.
+	-- 실행 결과로 보이는 것처럼 문자열로 저장되지 않고
+	-- 단지 연 월 일 시간 정보가 저장되어 있다는 것을 표현해주고 있다.
 );
 SELECT to_char(hiredate), e.*
 FROM emp e
 WHERE hiredate LIKE '81%'; -- 날짜열 확인
 
 --[1단계:활용] 10. like 키워드로 1/4분기에 입사한 사원들의 부서정보와 동일한 사원들을 출력하세요.
+SELECT to_char(hiredate)
+FROM emp;
+-- 데이터 형식 검색
+SELECT deptno
+FROM emp
+WHERE to_char(hiredate) LIKE '___01%';
+-- 데이터 확인
 SELECT ename
 FROM emp
 WHERE deptno in(
@@ -55,6 +65,20 @@ WHERE deptno in(
 	WHERE hiredate LIKE '___01%'
 	OR hiredate LIKE '___02%'
 	OR hiredate LIKE '___03%'
+);
+SELECT to_char(hiredate,'MM') -- 날짜 정보 중에 월을 추출해서 출력
+FROM emp;
+
+SELECT  deptno
+FROM emp
+WHERE  to_char(hiredate, 'MM') IN ('01', '02', '03');
+
+SELECT *
+FROM emp
+WHERE deptno IN (
+	SELECT deptno
+	FROM emp
+	WHERE to_char(hiredate, 'MM') IN ('01', '02', '03')
 );
 
 --[1단계:개념] 11. 집합연산자의 종류를 예제를 통해서 기술하세요.
