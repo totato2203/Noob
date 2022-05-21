@@ -43,12 +43,27 @@
 				12345678	p부터 추출
 					plus
 					1234	4개 추출
+		ex) 사원명 : [	] [검색]
+			1) 양 옆에 공백 문자 처리
+				js, java, DB(trim(), ltrim(), rtrim())
+			2) 대소문자 구분없이 검색되게 처리
+				DB테이블
+					Hello
+				검색 Hello시 해당 내용을 검색하지 않으면 검색이 안 된다.
+					HEllo, hellO
+					hello, HELLO로도 검색이 되게 하려면
+					where upper(ename) like '%' || upper('hello') || '%'
+			
+			
 	3) 문자열 길이 반환 함수
 		- 문자열은 크기 문자자체에 대한 개수와 byte단위로 크기를 처리하는 것으로 나누어 진다.
 			영문은 1자가 1byte, 한글은 oracle 기준으로 3bytes
 		- length(데이터/컬럼명) : 문자열의 길이(글자수)를 반환하는 함수, 한글/영문 동일
 		- lengthb(데이터/컬럼명) : 문자열의 바이트를 반환하는 함수
 			한글이나 특수문자인 경우 1글자당 3bytes인 경우가 있어 한글/영문이 차이가 난다.
+cf) 함수는 일반적으로 중첩하여 사용하는 경우가 많다.
+	함수1(함수2(함수3(데이터, 매개변수), 매개변수), 매개변수)
+
 3.
 */
 SELECT  ename, initcap(ename), lower(ename), upper(ename)

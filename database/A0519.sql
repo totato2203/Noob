@@ -54,19 +54,72 @@ FROM emp;
 SELECT round(22.8887, 2), trunc(22.8887, 2), ceil(22.8887), floor(22.8887) FROM dual;
 
 --[1단계:확인] 10. 근무일수를 2분위로 나누어서(중앙값을 기준) 보너스를 급여의 150%,200% 차등 지급하기로 했다. 사원명, 입사일, 분류, 보너스금액
-SELECT hiredate, floor((sysdate - hiredate)/2)
+-- 1) 근무일수 확인
+-- 2) 근무일수의 중앙값 추출 : 육안 14955
+-- 3) 근무일수의 중앙값을 기준점으로 미만과 이상을 구분자로 준다.
+--		이상인지 미만인지 구분 : 나눗셈을 통해 1이상이면 중앙값 이상, 1미만이면 중앙값 미만
+-- 4) 위 구분자로 보너스를 150% ==> 1.5, 200% ==> 2.0으로 처리되게 한다.
+--	0 ==> 1.5,	1 ==> 2.0
+--	+3	3 ==> 1.5	4 ==> 2.0
+--	*0.5 0.5 * 3 ==> 1.5,	0.5 * 4 ==> 2.0
+SELECT hiredate, floor(sysdate - hiredate)
 FROM emp
-ORDER BY floor((sysdate - hiredate)/2); -- 중앙값 : 7432, 7477
+ORDER BY floor(sysdate - hiredate); -- 육안으로 추출한 중앙값 : 14955
 
-SELECT ename, hiredate, (floor((sysdate - hiredate)/2)) "200%", sal, sal * 2 보너스
-FROM emp
-WHERE floor((sysdate - hiredate)/2) >= 7477;
+SELECT 
+	floor(median(sysdate - hiredate)) 중앙값,
+	floor(avg(sysdate - hiredate)) 평균값
+FROM emp;	-- 함수 이용 중앙값 : 14909, 평균값 : 14918
+-- 중앙값 이상, 미만 구분
+SELECT  ename, hiredate,
+	floor(sysdate - hiredate),
+	floor((sysdate - hiredate)/14955) 구분자,
+	sal,
+	sal * (floor((sysdate - hiredate)/14955) + 3) * 0.5 "보너스"
+--	(floor((sysdate - hiredate)/14955)+3)*0.5)*100 || '%' "보너스(%)",
+FROM emp;
 
-SELECT ename, hiredate, (floor((sysdate - hiredate)/2)) "150%", sal, sal * 1.5 보너스
-FROM emp
-WHERE floor((sysdate - hiredate)/2) <= 7432;
+SELECT ename, hiredate,
+	floor(sysdate - hiredate),
+	floor((sysdate - hiredate) / 14955) 구분자
+FROM emp;
+
+--SELECT ename, hiredate, floor(sysdate - hiredate) "200%", sal, sal * 2 보너스
+--FROM emp
+--WHERE floor(sysdate - hiredate) >= 7477;
+--
+--SELECT ename, hiredate, floor(sysdate - hiredate) "150%", sal, sal * 1.5 보너스
+--FROM emp
+--WHERE floor((sysdate - hiredate)/2) <= 7432;
 
 --[1단계:확인] 11. 오늘을 1일을 기준으로 1000일 기념일의 날짜와  걸린 기간을 @@년 @@개월 @@일 형식으로 표기하세요. hint)mod함수 활용
-SELECT sysdate + 999 기념일, floor(999 / 365) || '년 ' || floor(MOD(999, 365) / 30) || '개월 ' || MOD(mod(999, 365), 30) || '일' 걸린기간
-FROM emp;
+SELECT sysdate "오늘",
+	sysdate + 1000 "1000일 기념일",
+	floor(months_between(sysdate + 1001, sysdate)) "월 계산",
+	floor(months_between(sysdate + 1001, sysdate) / 12) "연 계산",
+	mod(floor(months_between(sysdate+1001, sysdate)), 12) "월",
+	mod(1001, floor(months_between(sysdate + 1001, sysdate))) "일",
+	floor(months_between(sysdate + 1001, sysdate) / 12) || '년 ' ||
+	mod(floor(months_between(sysdate+1001, sysdate)), 12) || '개월 ' ||
+	mod(1001, floor(months_between(sysdate + 1001, sysdate))) || '일' "걸린 기간"
+FROM dual;
+/*
+months_between : 월 계산에서 1.5 1개월 15일 ==> ceil floor을 통해서 차이가 남
+ */
+/*
+# 기간 계산 처리 형식
+1. 날짜 자체로 처리 방식
+	1000 ==> /365(365로 나눠서) 년, /12(12로 나눠서) 월, /30(30으로 나눠서) 일
+2. between_months로 날짜를 계산하여 처리하는 방식
+	1) 사이의 월을 계산
+		between_months(sysdate, sysdate + 1001)
+		오늘이 1일이므로 +1을 더해서 월을 계산
+	2) 월계산 / 12 == 연도계산
+	3) 월계산 * 30 ==> 일계산 (위 날짜 자체 계산처리 방식에서 mod를 활용하여 처리)
+	# cf 위 계산식에서 절삭(floor)과 나머지연산자(mod)를 활용해서 처리한다.
+ */
+
+
+--SELECT sysdate + 999 기념일, floor(999 / 365) || '년 ' || floor(MOD(999, 365) / 30) || '개월 ' || MOD(mod(999, 365), 30) || '일' 걸린기간
+--FROM emp;
 

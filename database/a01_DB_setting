@@ -37,4 +37,9 @@
 8. 상단 툴바에 새로 생긴 데이터베이스(D) -> 새 데이터베이스 연결 -> 오라클
    -> 우측 하단 Drive Setting -> libraries(두 번째 메뉴) -> 라이브러리 다 지우고
    -> Add File -> src \ ~ \ WEB-INF -> ojdbc6.jar 선택
-   -> Connection type에 xe 입력 -> username에 scott 입력 -> password에 tiger 입력 -> finish   
+   -> Connection type에 xe 입력 -> username에 scott 입력 -> password에 tiger 입력 -> finish  
+
+# sql 편집기 저장 시, 상단에 연결 정보가 끊어질 때
+1. 상단에 선택으로 연결을 해보고,
+2. 저장 시 마다 계속 끊어지면
+	새 sql 편집으로 만들고, 기존 내용을 복사한 후 기본 파일로 

@@ -40,5 +40,33 @@ SELECT sysdate, add_months(sysdate, 4) FROM dual;
 SELECT ename, deptno, hiredate, deptno/10 "인턴기간(개월)",
 	add_months(hiredate, deptno/10)
 FROM emp;
+-- 4) next_day : 해당 일을 기준으로 명시된 요일의 다음 날짜를 반환
+--		형식 : next_day(지정한날짜, '요일') : 지정한 날짜로부터 가장 빠른 요일의 날짜
+SELECT next_day(sysdate, '일') "가장 빠른 일요일"
+FROM dual;
+-- 5) last_day : 해당 날짜가 속한 달의 마지막 날짜
+SELECT last_day(sysdate) "이번달 마지막",
+	last_day(sysdate) + 1 "다음달 1일"
+FROM dual;
+-- ex1) 사원들의 입사하고 처음 토요일 여행을 가기로 했다. 사원명, 입사일, 첫번째토요일
+SELECT ename, hiredate, next_day(hiredate, '토') FROM emp;
+-- 급여일 5월 1~31 ==> 5/20
+-- 급여일 5월 1~31 ==> 6/1, 6/10, 6/20
+-- ex2) 사원 첫 급여일은 다음달 첫날로 지정되었다. 급여일과 근무일수를 출력하세요.
+SELECT ename, hiredate,
+last_day(hiredate) + 1 "첫 급여일",
+last_day(hiredate) + 1 - hiredate "근무일수",
+ceil(last_day(hiredate) - hiredate + 1) "입사월 근무일수"
+FROM emp;
+/*
+# 날짜 데이터의 round, trunc 함수
+1. 함수를 적용해서, 날짜 계산은 소수점 이하로 나타날 때가 많다.
+	1일 ==> 현재 시간과 함께 계산되기 때문에 정확하게 안 되는 경우가 있다.
+	5/22 0시 기준 ==> 현재시간 sysdate로 처리한 시간도 포함되기에
+		ceil()올림이나, floor()내림 처리하지 않으면 소수점 이하의 시간 내용도 포함되게 된다.
+	add_months
+	months_between : 월이 1이 되기에 15일 0.5 12시간 0.55 등으로
+	기준이 되는 단위에서 소수점 이하로 처리되는 경우가 많다.
+ */
 
 
