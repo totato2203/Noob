@@ -3,7 +3,14 @@
 1. database에서는 테이블 내의 특정 컬럼에 데이터가 없는 것을 NULL이라고 한다.
 2. 미확인 값이나 아직 값이 적용되지 않는 것을 의미한다.
 3. 0이나 ''(공백)과 구분되어 정의되지 않는 값을 의미한다.
+	''도 null로 인식하는 경우가 있다.
 	cf) 프로그램의 primitive 데이터의 초기값 설정과 차이가 있다.
+*/
+SELECT  * FROM EMP_CP100;
+INSERT INTO EMP_CP100(ename) values(null);
+INSERT INTO EMP_CP100(ename) values('');
+INSERT INTO EMP_CP100(ename) values(' '); -- DB에서는 null로 처리된다.
+/*
 4. NULL값과 다른 데이터의 연산 결과값은 NULL이 된다.
 	SELECT sal + NULL ==> NULL
 5. 위와 같이 특정한 숫자형 데이터와 연산 시, NULL이 되므로, NULL 값이 나올 때는
@@ -42,6 +49,8 @@ SELECT ename, sal, comm, sal + comm 합산
 FROM emp
 --WHERE comm IS NOT NULL; -- comm = 0인 경우는 제외되지 않음
 WHERE nvl(comm, 0) > 0; -- null과 0을 함께 제외
+-- 데이터가 0인 경우와 null인 경우를 둘 다 제외시켜야 하는 경우가 많다.
+-- 이런 경우 함수(nvl)을 활용하여 처리한다.
 
 
 

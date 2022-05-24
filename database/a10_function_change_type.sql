@@ -25,6 +25,9 @@ WHERE sal = to_number('800');
 SELECT ename, hiredate
 FROM emp
 WHERE hiredate LIKE '%81%';
+-- 묵시적으로 hiredate는 to_char()가 적용이 된 내용으로 비교한다.
+-- 주의) 1981 형태의 데이터는 기본 묵시형 변환에 포함되어 있지 않으므로
+--		to_char(hiredate, 'YYYY')로 설정하여 비교해야 한다.
 -- ==>
 SELECT ename, hiredate, to_char(hiredate)
 FROM emp
@@ -45,6 +48,7 @@ SELECT sysdate,
 	to_char(sysdate, 'YYYY'), -- 연도 표현
 	to_char(sysdate, 'MM'), -- 월 표기
 	to_char(sysdate, 'DD'), -- 일 표기
+	to_char(sysdate, 'DAY'), -- 요일 표기
 	to_char(sysdate, 'YYYY/MM/DD') --  현재 날짜를 YYYY/MM/DD 표기
 FROM dual;
 -- ex) to_char 활용하여, 1980에 입사한 사원의 이름, 입사년도, 입사월, 입사일을 출력하세요.

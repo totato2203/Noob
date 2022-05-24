@@ -48,5 +48,64 @@ SELECT ename, deptno,
 					40, '재무'
 			'기타과') 부서명
 FROM emp;
+/*
+# CASE 조건 함수 처리
+1. decode의 확장됨 함수 형식으로 비교/논리 연산식을 이용해서
+	해당 결과값이 true일 경우를 지정하여 처리한다.
+2. 기본 형식
+	1) 형식1
+	CASE WHEN 논리/관계식1 THEN 처리할데이터
+	 	 WHEN 논리/관계식2 THEN 처리할데이터
+		 ...
+		 ELSE 위에 선언된 논리/관리식이 아닐 때 처리할 데이터
+	END
+	2) 형식2
+		CASE 컬럼
+			WHEN 컬럼에데이터1일때 THEN 처리할데이터
+			WHEN 컬럼에데이터2일때 THEN 처리할데이터
+			...
+			ELSE 위 WHEN에 나열된 데이터가 아닐 때, 처리할 데이터
+		END
+ */
+SELECT ename, deptno,
+	CASE WHEN deptno = 10 THEN sal * 0.2
+		 WHEN deptno = 20 THEN sal * 0.5
+		 WHEN deptno = 30 THEN sal * 0.7
+		 ELSE sal * 1.2
+	END 보너스
+FROM emp;
+-- ex) sal을 기준으로 5000 이상일 때 A등급, 4000 ~ 5000 미만 B등급
+--		CASE WHEN을 활용하여 이름, 급여, 급여등급을 출력하세요.
+SELECT ename, sal,
+	CASE WHEN sal >= 5000 THEN 'A'
+		 WHEN sal >= 4000 THEN 'B'
+		 WHEN sal >= 3000 THEN 'C'
+		 WHEN sal >= 2000 THEN 'D'
+		 WHEN sal >= 0 THEN '거지'
+		 ELSE '데이터범위초과(숫자 0 이상)'
+	END 급여등급
+FROM emp;
+SELECT ename, deptno,
+	CASE deptno WHEN 10 THEN sal * 0.2
+				WHEN 20 THEN sal * 0.5
+				WHEN 30 THEN sal * 0.7
+				ELSE sal * 1.2
+	END show
+FROM emp;
+-- ex) 직책의 종류를 확인하고, 직책에 따라서 출장지를 서울 대구 부산 광주 제주도로 설정하세요.
+SELECT DISTINCT job FROM emp; -- CLERK, SALESMAN, PRESIDENT, MANAGER, ANALYST
+SELECT DISTINCT ename, job,
+	CASE job WHEN 'CLERK' THEN '서울'
+			 WHEN 'SALESMAN' THEN '대구'
+			 WHEN 'PRESIDENT' THEN '부산'
+			 WHEN 'MANAGER' THEN '광주'
+			 WHEN 'ANALYST' THEN '제주도'
+			 ELSE '무직'
+	END 출장치
+FROM emp;
 
-
+		
+		
+		
+		
+		

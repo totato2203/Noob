@@ -10,6 +10,7 @@
 SELECT instr('SQL*Plus', '*') FROM dual;
 SELECT instr('Welcome to Oracle 11g', 'o', 3, 2) FROM dual;
 -- Welcome to Oracle 11g 데이터의 'o'로 검색할 때, 시작을 3번째 부터하고, 두번째 o가 나오는 index 추출
+-- 위의 경우 index 3부터 시작해서 두번째 0인 to에 있는 o의 위치를 리턴한다.
 -- ex) 직책과 직책에서 'A'가 나오는 첫번째 위치를 검색하여 출력하세요.
 SELECT job, instr(job, 'A') FROM emp; -- 0은 데이터가 나오지 않을 때를 의미한다.
 /*
@@ -24,6 +25,13 @@ ps) 특정한 컬럼을 동일한 자리수로 만들거나, 가변형 데이터
 SELECT	lpad('sql', 5, '*') sh1,
 		rpad('sql', 5, '#') sh2
 FROM dual;
+-- ename 데이터를 고정형으로 변환해서 등록
+SELECT length(ename) FROM emp;
+SELECT max(length(ename)) FROM emp;
+SELECT ename, rpad(ename, 6, ' #') "공백삽입",
+lpad(ename, 8, '@@')
+FROM emp;
+
 -- ex) 사원명을 6자리, 직책명을 8자리로 설정하여, 사원명은 왼쪽에 #기호를,
 --		직책명은 오른쪽에 @기호를 덧붙여 처리하여 출력하세요.
 SELECT lpad(ename, 6, '#'), rpad(job, 8, '@')

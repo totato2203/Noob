@@ -38,7 +38,7 @@ GROUP BY deptno
 HAVING avg(sal) >= 3000;
 /*
 # 그룹 함수의 종류
-1. count() : 행의 개수
+1. count() : 행의 개수, 그룹별로 데이터의 건수를 처리해주는 함수
 2. max() : null을 제외한 모든 행의 최대값
 3. min() : null을 제외한 모든 행의 최소값
 4. sum() : null을 제외한 모든 행의 합
@@ -66,10 +66,17 @@ GROUP BY deptno;
 SELECT deptno, max(hiredate) "부서별 최근"
 FROM emp
 GROUP BY deptno;
--- 월별로 가장 높은
+-- 월별로 가장 높은 급여
+-- 데이터를 추출하거나 일부분을 만들어 이것을 그룹함수로 처리
 SELECT to_char(hiredate, 'MM') 월, sal
 FROM emp
 ORDER BY 월;
+/*
+# alias(별칭) 사용 주의
+1. 정렬은 별치으로 사용이 가능하나
+2. GROUP을 처리한 데이터는 별칭을 사용하지 않는다.
+	- 결과 건수만 같으면 중첩함수를 적용하지 않아도 된다.
+ */
 
 SELECT to_number(to_char(hiredate), 'MM')) 월,
 		max(sal) 최대급여, avg(sal)
@@ -104,7 +111,15 @@ GROUP BY mod(empno, 2);
 	그룹화하는 행 집합을 줄여서 내부 정렬 시간을 단축
 	SQL 처리 성능 향상
  */
-
-
+SELECT deptno, avg(sal) 평균
+FROM emp
+WHERE sal >= 2000
+GROUP BY deptno
+-- sal이 2000 이상인 것을 대상으로 그룹함수를 처리
+SELECT deptno, avg(sal) 평균
+FROM emp
+GROUP BY deptno
+HAVING avg(sal) >= 2000;
+-- 그룹함수가 처리된 결과에서 avg(sal)를 조건으로 처리
 
 

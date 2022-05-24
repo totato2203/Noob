@@ -32,9 +32,25 @@ FROM emp;
 
 --[1단계:확인] 4. 사원의 입사분기별로 보너스를 차등 지급하고자 한다. 열단위로 처리하세요.사원명, 급여, 보너스 %, 보너스
 --      (급여의 1/4분기 10%, 1/4분기 20%, 1/4분기 30%, 1/4분기 30%)
-SELECT ename, sal, hiredate, to_char(hiredate, 'Q') 분기,
+SELECT ename, sal, hiredate, to_number(to_char(hiredate, 'Q')) 분기,
 to_number(to_char(hiredate, 'Q'))*10 || '%' "보너스%",
-sal * to_number(to_char(hiredate, 'Q'))*10 보너스
+sal * to_number(to_char(hiredate, 'Q'))*0.1 보너스
+FROM emp;
+SELECT ename, hiredate,
+	to_char(hiredate, 'Q') 분기,
+	decode(to_char(hiredate, 'Q'),
+		'1', '10%',
+		'2', '20%',
+		'3', '30%',
+		'4', '40%',
+		'데이터없음'
+	) "보너스%",
+	sal * decode(to_char(hiredate, 'Q'),
+		'1', 0.1,
+		'2', 0.2,
+		'3', 0.3,
+		'4', 0.3,
+		0) "보너스 금액"
 FROM emp;
 
 --[1단계:확인] 5. 입사월이 4/4분기에 해당하는 사원의 정보를 +9시간 더하여 다음과 같이 출력하세요
@@ -53,8 +69,8 @@ SELECT ename, sal, nvl2(comm, comm + sal*  0.05 , sal * 0.15) 보너스, sal + n
 FROM emp;
 
 --[1단계:확인] 7. [중첩함수] 사원번호를 기준으로 짝수이면 홍팀, 홀수이면 청팀으로 처리하여 출력하세요.
-SELECT empno, MOD(empno, 2) "구분자",
-nvl2(to_char(nullif(0, MOD(empno, 2))), '청팀', '홍팀') 팀
+SELECT empno, MOD(empno, 2) 구분자,
+decode(MOD(empno, 2), 0, '홍팀', 1, '청팀', '데이터없음') 팀
 FROM emp;
 
 
