@@ -104,12 +104,15 @@ FROM emp e, dept d;
 		WHERE 절을 사용하지 않고 natural join 키워드 사용
 		오라클에서 자동적으로 테이블의 모든 컬럼을 대상으로 공동 컬럼을 조사 후,
 		내부적으로 조인문 생성
+		- 테이블 간에 컬럼명과 type이 같은 겉을 확인하여,
+			같은 데이터가 있는 row 단위로 연결하여 출력한다.
 	2) 기본 형식
 		SELECT 테이블1.컬럼명, 테이블2.컬럼명
 		FROM 테이블1 natural join 테이블2
  */
 SELECT *
 FROM emp NATURAL JOIN dept;
+-- deptno가 같은 type이고 같은 이름이어서 데이터를 확인하여 동일한 데이터가 있는 row 단위로 출력한다.
 
 CREATE TABLE emp200
 AS SELECT * FROM emp WHERE deptno = 10;

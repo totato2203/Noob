@@ -8,16 +8,17 @@
 		- 급여가 최고인 정보를 sql 처리
 		- 그 결과를 조회 조건으로 사원 정보를 검색 처리
 3. 처리 과정
-	1) 서브 쿼리는 메인 쿼리가 실행되기 전에 한번씩 실행되고,
-	2) 서브 쿼리에서 실행된 결과가 메인 쿼리에 전달되어 최종적인 결과를 출력 처리
+	1) 서브쿼리는 메인 쿼리가 실행되기 전에 한번씩 실행되고,
+	2) 서브쿼리에서 실행된 결과가 메인 쿼리에 전달되어 최종적인 결과를 출력 처리
+	# 서브쿼리가 라인상으로는 하위에 있지만 실행은 먼저하고,
+		그 결과를 기준으로 데이터를 처리한다.
 
 ex1) 급여가 최저인 사원의 정보(*)를 출력하세요.
 ex2) 최근에 입사한 사원의 정보(*)를 출력하세요.
 */
 SELECT * FROM emp;
 
-SELECT min(sal)
-FROM emp;
+SELECT min(sal) FROM emp;
 SELECT *
 FROM EMP e 
 WHERE sal = (
@@ -45,14 +46,14 @@ WHERE sal = (
 );
 /*
 # subquery의 종류 : subquery를 통해 결과가 행이 1개인 경우와 여러 개인 경우로 나누어서 사용할 수 있다.
-1. 단일행 서버쿼리
+1. 단일행 서브쿼리
 	1) 서브쿼리에서 단 하나의 행만을 검색하여 메인쿼리에 반환하는 질의문
 	2) 메인쿼리의 WHERE 절에서 서브쿼리의 결과와 비교할 경우에는 반드시 단일행 비교 연산자 중 하나만 사용해야 함.
 		- 단일행 비교 연산자 : =, >, >=, <, <>, <=
 	3) 서브쿼리의 결과로 하나의 행만이 출력되어야 함
 		- 방법1 : 서브쿼리의 조건절에서 기본 키나 고유 키를 '='로 비교하는 방식
 		- 방법2 : 서브쿼리의 SELECT 절에서 전체 집합을 대상으로 그룹함수 사용
-2. 복합행 서버쿼리
+2. 복합행 서브쿼리
  */
 -- 방법1
 SELECT * FROM emp;
@@ -104,7 +105,7 @@ WHERE sal < (
 	WHERE job = 'CLERK'
 );
 /*
-# 다중행 서버쿼리(복합행 서버쿼리)
+# 다중행 서브쿼리(복합행 서브쿼리)
 1. 서브쿼리에서 반환되는 결과 행이 하나 이상일 때 사용하는 서브쿼리
 2. 메인쿼리의 WHERE 절에서 서버쿼리의 결과와 비교할 경우에는 다중 행 비교 연산자를 사용하여 비교
 3. 다중행 비교 연산자
@@ -134,6 +135,7 @@ WHERE sal > any(
 --	WHERE deptno = 20
 --);
 
+
 SELECT *
 FROM emp
 WHERE sal > all(
@@ -154,6 +156,7 @@ WHERE sal > all(
 1. 서브쿼리에서 검색된 결과가 하나라도 존재하면 메인쿼리 조건절은 참이 되는 연산자
 2. 서브쿼리에서 검색된 결과가 존재하지 않으면 메인쿼리의 조건절은 거짓
 	- 선택된 레코드가 없습니다 라는 메세지 존재
+	# 하위에 있는 데이터가 있기만 하면 상위 쿼리를 수행 처리한다.
 3. not exists
 	1) exists와 상반되는 연산자
 	2) 서브쿼리에서 검색된 결과가 하나도 존재하지 않으면 메인쿼리의 조건절은 참이 되는 연산자
@@ -164,8 +167,29 @@ FROM emp
 WHERE exists(
 	SELECT mgr
 	FROM EMP e 
-	WHERE mgr IS NULL
-);
+	WHERE mgr IS NULL);
+--
+SELECT *
+FROM emp;
+-- hint) exists(), not exists(), where에 위 내용 다음 and도 가능
+-- ex1) 부서번호가 40번이 없을 때, 부서번호가 10인 사원 정보를 출력
+SELECT *
+FROM emp
+WHERE NOT EXISTS(
+	SELECT deptno
+	FROM emp
+	WHERE deptno = 40) AND deptno = 10;
+-- ex2) 보너스가 0인 데이터가 있을 때, 보너스가 null이 아닌 사원 정보 출력
+SELECT *
+FROM emp
+WHERE EXISTS (
+	SELECT comm
+	FROM emp
+	WHERE comm = 0)
+AND comm IS NOT NULL;
+-- null에 대한 검색 조건으로 '컬럼명 = null'은 안 된다.
+-- 컬럼명 is null : 해당 데이터가 없을 때
+-- 컬럼명 is not null : 해당 데이터가 있을 때
 
 
 
