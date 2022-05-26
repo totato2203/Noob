@@ -13,7 +13,15 @@
 CREATE TABLE emp_cp120
 AS SELECT * FROM EMP e NATURAL JOIN DEPT d;
 SELECT * FROM emp_cp120;
+/*
+CREATE TABLE emp_cp120
+AS SELECT e.*, dname, loc
+FROM emp e, dept d
+WHERE e.deptno = d.deptno;
+ */
+-- 전체 테이블 컬럼 입력
 INSERT INTO emp_cp120 values(10, 7777, 'QUEEN', 'TEACHER', 7839, sysdate, 7000, NULL, 'SALES', 'DALLAS'); -- 전체 데이터 입력
+-- 부분 컬럼 입력
 INSERT INTO emp_cp120(deptno, empno, ename, job, sal) values(20, 8888, 'JACK', 'STUDENT', 3400); -- 부분 데이터 입력
 
 --[1단계:개념] 3. 명시적 null과 묵시적 null 데이터 입력의 차이점을 예제를 통해서 기술하세요.
@@ -27,9 +35,15 @@ INSERT INTO emp_cp120(deptno, empno, ename, job, sal) values(10, 6666, 'DEVIL', 
 -- deptno, empno, ename, job, sal 이외의 컬럼에는 자동으로 NULL값이 들어간다.
 SELECT * FROM emp_cp120;
 
---[1단계:확인] 4. 현재 년도와 월을 기준으로 지정한 날짜와 시간(15일 오전 10:15)오후 12:25을 입력 처리하세요.
+--[1단계:확인] 4. 현재 년도와 월을 기준으로 지정한 날짜와 시간(15일 오전 10:15)을 입력 처리하세요.
+SELECT sysdate,
+to_char(sysdate, 'YYYY-MM') d1,
+to_char(sysdate, 'YYYY-MM') || '-15 AM 10:15' d2,
+to_date(to_char(sysdate, 'YYYY-MM') || '-15 10:15', 'YYYY-MM-DD HH:MI') d3
+FROM dual;
+
+-- 나의 답
 INSERT INTO emp_cp120(hiredate) values(to_date(to_char(sysdate, 'YYYY-MM') || '-15 10:15', 'YYYY-MM-DD HH:MI'));
-INSERT INTO emp_cp120(hiredate) values(to_date(to_char(sysdate, 'YYYY-MM') || '-15 12:25', 'YYYY-MM-DD HH24:MI'));
 SELECT * FROM emp_cp120;
 
 --[1단계:개념] 5. 단일 데이터 입력과 다중 데이터 입력의 차이를 예제를 통해 기술하세요.

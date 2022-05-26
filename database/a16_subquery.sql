@@ -190,6 +190,35 @@ AND comm IS NOT NULL;
 -- null에 대한 검색 조건으로 '컬럼명 = null'은 안 된다.
 -- 컬럼명 is null : 해당 데이터가 없을 때
 -- 컬럼명 is not null : 해당 데이터가 있을 때
+/*
+# inline view
+1. view란 기존 테이블의 실제 테이블에서 파생된 논리적 테이블
+	emp ==> 논리테이블(부서번호가 10이고 사원명, 급여, 부서번호)
+2. inline view는 테이블 시 subquery로 테이블을 논리적으로 선언하여 사용하는 것을 말한다.
+ */
+SELECT *
+FROM (
+	SELECT empno, ename, job
+	FROM emp
+	WHERE deptno = 10
+);
+SELECT d.*, sal
+FROM (
+	SELECT deptno, max(sal) sal
+	FROM emp
+	GROUP BY deptno) e, dept d
+WHERE e.deptno = d.deptno;
+-- ex) 인라인뷰1(직책별 최고 급여자), 사원전체 (emp)
+--		조인 : 급여
+--		==> 직책별 최고 급여자의 정보를 출력
+SELECT me.*, e.*
+FROM (
+	SELECT job, max(sal) sal
+	FROM emp
+	GROUP BY job
+) me, emp e
+WHERE me.sal = e.sal
+ORDER BY me.sal;
 
 
 
