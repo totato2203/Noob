@@ -30,6 +30,7 @@ WHERE sal >= 2000 AND deptno = 30;
 	2) 다중의 row인 경우
 		DELETE FROM 테이블
 		WHERE (컬럼명1, 컬럼명2, ...) in (SELECT ... FROM 테이블 ...)
+	cf) 다중 컬럼인 경우에 해당 컬럼 데이터가 1개 row에 같이 있을 때 삭제된다.
  */
 SELECT * FROM emp01;
 -- 부서별 최고 급여자 삭제

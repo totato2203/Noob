@@ -4,13 +4,15 @@ SELECT to_char(hiredate, 'Q'), min(sal) ms
 FROM emp
 GROUP BY to_char(hiredate, 'Q');
 
-SELECT DISTINCT e.*
+SELECT d.div, d.sal, e.empno, e.ename
 FROM (
-	SELECT to_char(hiredate, 'Q'), min(sal) sal
+	SELECT to_char(hiredate, 'Q') div, min(sal) sal
 	FROM emp
 	GROUP BY to_char(hiredate, 'Q')
 	) d, emp e
-WHERE d.sal = e.sal;
+WHERE d.sal = e.sal -- 1, 3분기의 최저값이 같기 때문에 분기도 검색조건으로 추가해야 한다.
+AND d.div = to_char(e.hiredate, 'Q')
+ORDER BY div;
 
 --[1단계:개념] 2. 삭제 처리 기본 형식과 subquery를 통한 삭제 형식를 예제를 통해서 설명하세요.
 CREATE TABLE emp002 AS SELECT * FROM emp;
@@ -27,12 +29,57 @@ WHERE (job, empno) IN (
 SELECT * FROM emp002;
 
 --[1단계:확인] 3. emp02로 복사테이블을 만들고, delete subquery를 이용하여, 상/하반기 최고 급여자를 삭제처리하세요.
+-- 1. 복사테이블 만들기
 CREATE TABLE emp02 AS SELECT * FROM emp;
+
+-- 2. subquery에 들어갈 query : 상/하반기 최고 급여자
+SELECT hiredate, decode(CEIL(to_number(to_char(hiredate, 'MM'))/6), 1, '상반기', '하반기') div
+FROM emp02;
+
+-- 방법 1)
+SELECT decode(CEIL(to_number(to_char(hiredate, 'MM'))/6), 1, '상반기', '하반기') div, max(sal)
+FROM emp02
+GROUP BY CEIL(to_number(to_char(hiredate, 'MM'))/6);
 
 SELECT ceil(to_char(hiredate, 'Q')/2) 상하반기, max(sal) sal
 FROM emp02
 GROUP BY ceil(to_char(hiredate, 'Q')/2);
 
+-- 방법 2)
+SELECT 	hiredate, to_char(hiredate, 'MM') div1,
+		to_number(to_char(hiredate, 'MM'))/6 div2,
+		ceil(to_number(to_char(hiredate, 'MM'))/6) div3,
+		decode(CEIL(to_number(to_char(hiredate, 'MM'))/6), 1, '상반기', '하반기')
+FROM emp02;
+
+-- 방법3)
+SELECT decode(h4, 1, '상반기', '하반기') "상/하반기"
+FROM (
+	SELECT CEIL(h3) h4 -- 4. h3을 ceil(올림) 처리한다.
+	FROM (
+		SELECT to_number(h2)/6 h3 -- 3. 문자열 h2를 숫자형으로 바꾸고 6으로 나눈 h3을 위쪽에 올린다.
+		FROM (
+			SELECT to_char(h, 'MM') h2 -- 2. hiredate의 'MM'을 문자열 h2로 위쪽에 올린다.
+			FROM (
+				SELECT hiredate h -- 1. hierdate를 h로 위쪽에 올린다.
+				FROM emp02
+			)
+		)
+	)
+);
+
+-- 3. delete의 query 명령어로 삭제 처리
+DELETE FROM emp02
+WHERE (decode(CEIL(to_number(to_char(hiredate, 'MM'))/6), 1, '상반기', '하반기'), sal)
+	IN (
+	SELECT decode(CEIL(to_number(to_char(hiredate, 'MM'))/6), 1, '상반기', '하반기') div,
+	max(sal)
+	FROM emp02
+	GROUP BY ceil(to_number(to_char(hiredate, 'MM'))/6)
+);
+SELECT * FROM emp02;
+
+-- 나의 답
 DELETE FROM emp02
 WHERE (CEIL(to_char(hiredate, 'Q')/2), sal) IN (
 	SELECT ceil(to_char(hiredate, 'Q')/2) 상하반기, max(sal) sal

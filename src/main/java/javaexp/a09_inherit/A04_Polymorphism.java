@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class A04_Polymorphism {
 
 	public static void main(String[] args) {
+
+		
 		// TODO Auto-generated method stub
 		/*
 		# 다형성(polymorphism)
@@ -57,6 +59,7 @@ public class A04_Polymorphism {
 		// ex) 상속으로 Hydra 클래스를 선언하고
 		// attack() 메서드로 "공격력 +3로 원거리" 를 출력하세요.
 
+		
 	}
 
 }

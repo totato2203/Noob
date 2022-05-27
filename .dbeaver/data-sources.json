@@ -30,6 +30,23 @@
 				},
 				"auth-model": "oracle_native",
 				"handlers": {}
+			},
+			"custom-properties": {
+				"transaction.smart.commit": "true"
+			}
+		}
+	},
+	"virtual-models": {
+		"oracle_thin-180cbc26bc9-4afd6b3b7fdd750a": {
+			"SCOTT": {
+				":EMP_CP100": {
+					"constraints": {
+						"VIRTUAL_PK": {
+							"type": "vpk",
+							"useAllColumns": true
+						}
+					}
+				}
 			}
 		}
 	},
