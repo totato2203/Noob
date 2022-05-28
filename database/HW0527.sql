@@ -3,7 +3,6 @@
 --	데이터의 정확성과 일관성을 보장하여 다양한 종류의 업무규칙을 고려하기 위함이다.
 
 --[1단계:개념] 2. not null 무결성 제약조건의 기본예제와 함께 제약조건의 내용을 기술하세요
-DROP TABLE student00;
 CREATE TABLE student00 (
 	stdno char(9) PRIMARY KEY,
 	stdname varchar(50) NOT NULL,
@@ -25,19 +24,49 @@ INSERT INTO student00 VALUES (201610680, '안영희', '산업공학과');
 --      id : not null, unique, pass : not null, 이름: not null
 --      권한 : 관리자/일반사용자/슈퍼유저 만등록, 포인트 : 0이상 등록 가능
 CREATE TABLE member00 (
-	id varchar2(50),
-	pass varchar2(50),
-	name varchar2(50),
-	auth 
+	id varchar2(50) PRIMARY KEY,
+	pass varchar2(50) NOT NULL,
+	name varchar2(50) NOT NULL,
+	auth varchar2(50) CONSTRAINT member00_auth_ck CHECK (auth IN ('관리자', '일반사용자', '슈퍼유저')),
+	point NUMBER CHECK (point >= 0)
 );
+SELECT * FROM member00;
 
 --[1단계:개념] 5. 무결성 제약 조건의 null의 관계를 기술하세요.
-
+/*
+	1) PRIMARY KEY : NULL값 불가능, 다른 값은 모두 고유해야 함
+	2) NOT NULL : NULL값 불가능
+	3) UNIQUE : 다른 값은 모두 고유해야 하나, NULL값만 중복 가능
+ */
 
 --[1단계:개념] 6. 무결성 제약조건의 이름을 쓰는 경우와 쓰지 않는 경우 형식의 차이를 기술하세요.
-
+CREATE TABLE student000 (
+	stdno char(9) PRIMARY KEY,
+	stdname varchar2(50) NOT NULL,
+	point NUMBER CHECK (point >= 0),
+	grade char(1) CONSTRAINT student000_grade_ck CHECK (grade IN ('A', 'B', 'C'))
+); -- 특정한 조건이 필요할 때 제약조건의 이름을 쓴다.
 
 --[1단계:확인] 7. 물건(물건번호, 이름, 가격, 단위, 분류번호) 제품구분(분류번호, 분류명, 우선순위)
 --      1000 사과   3000 개  10     10 과일류 1
 --      1001 소고기 10000 g  20     20 육류  2
 --        제품구분의 분류번호와 물건의 분류번호는 foreign key 관계로 설정하세요.
+CREATE TABLE product00 (
+	prdno char(6),
+	prdname varchar2(50),
+	price NUMBER,
+	danwi varchar(50),
+	clsf char(6) PRIMARY KEY
+);
+CREATE TABLE product000 (
+	clsf2 char(6) REFERENCES product00(clsf),
+	clsfname varchar2(50),
+	frst NUMBER CHECK (frst >= 1 AND frst < 100)
+);
+INSERT INTO product00 VALUES ('15-777', '전자레인지', 100000, '원', '10-233');
+INSERT INTO product00 VALUES ('15-787', '책상', 80000, '원', '10-234');
+INSERT INTO product000 VALUES ('10-233', '가전제품', 1);
+INSERT INTO product000 VALUES ('10-234', '가구', 1);
+
+SELECT * FROM product00;
+SELECT * FROM product000;
