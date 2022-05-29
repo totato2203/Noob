@@ -176,6 +176,7 @@ CREATE TABLE buyStf (물건번호 char(9), 구매한회원번호 char(9), 물건
 INSERT INTO buyStf VALUES ('1002-3500', '7001-6652', '사과', 2500, 4);
 INSERT INTO buyStf VALUES ('1002-3502', '7001-6679', '바나나', 3000, 2);
 INSERT INTO buyStf VALUES ('1002-3505', '7001-6652', '귤', 500, 5);
+
 SELECT * FROM buyStf;
 
 

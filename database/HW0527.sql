@@ -51,6 +51,8 @@ CREATE TABLE student000 (
 --      1000 사과   3000 개  10     10 과일류 1
 --      1001 소고기 10000 g  20     20 육류  2
 --        제품구분의 분류번호와 물건의 분류번호는 foreign key 관계로 설정하세요.
+DROP TABLE product00;
+DROP TABLE product000;
 CREATE TABLE product00 (
 	prdno char(6),
 	prdname varchar2(50),
@@ -65,8 +67,10 @@ CREATE TABLE product000 (
 );
 INSERT INTO product00 VALUES ('15-777', '전자레인지', 100000, '원', '10-233');
 INSERT INTO product00 VALUES ('15-787', '책상', 80000, '원', '10-234');
+INSERT INTO product00 VALUES ('15-788', '의자', 50000, '원', '10-235');
 INSERT INTO product000 VALUES ('10-233', '가전제품', 1);
-INSERT INTO product000 VALUES ('10-234', '가구', 1);
+INSERT INTO product000 VALUES ('10-234', '가구', 2);
+INSERT INTO product000 VALUES ('10-235', '가구', 3);
 
 SELECT * FROM product00;
 SELECT * FROM product000;
