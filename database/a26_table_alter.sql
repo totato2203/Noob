@@ -62,6 +62,9 @@ SELECT * FROM emp114;
 1. 개요
 	1) alter table 명령문 이용
 	2) 컬럼 추가, 삭제, 타입이나 길이의 재정의 같은 작업
+		등록, 삭제, 이름변경
+		ADD (컬럼명 옵션), MODIFY(컬럼명 옵션),
+		DROP 컬럼명, RENAME COLUMN 기존컬럼명 TO 바꿀컬럼명
 2. 컬럼 추가
 	1) ALTER TABLE ADD 명령문 사용
 	2) 추가된 컬럼은 테이블의 마지막 부분에 생성, 위치 지정 불가능
