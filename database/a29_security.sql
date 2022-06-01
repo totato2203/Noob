@@ -34,7 +34,29 @@ GRANT CREATE SESSION TO orauser100;
 /*
 ex) orauser200/user200으로 계정과 비밀번호를 선언하여 계정을 생성하고,
 	해당 계정에 접근 권한을 주고 접근하세요. (cmd 창에서)
+
+1) dba 권한이 필요하다.
+	- system 계정으로 해당 계정을 만들거나
+	- system 계졍에서 현재 접속 중에 scott 계정에 dba 권한을 줘야 한다.
+		grant dba to scott
+2) 계정 생성
+	CREATE USER orauser200 IDENTIFIED BY user200;
+3) 접속 권한 처리
+	GRANT CREATE SESSION TO orauser200;
+
+# 특정한 사용자의 테이블(지원)을 사용하는 권한 처리
+1. 계정 생성과 함께 접속, 자원 사용 권한 설정
+	1) 기본 형식
+	grant 권한1, 권한2, 권한3 ... to 사용자 identified by 계정명
+	2) 실습 예제
+	grant connect, resource, unlimited tablespace to scott;
+		connect : 접속 권한
+		resource : 자원에 대한 설정 권한
+		unlimited tablespace : 실제 저장할 물리적 테이블 저장 공간에 대한 용량 제한 없이 설정
  */
-
-
-
+GRANT CONNECT, resource, unlimited tablespace TO himan100 IDENTIFIED BY 8888;
+-- ex) himan200 계정을 만들고, 접근권한과 오라클 객체에 대한 처리 권한을 설정하고,
+--		테이블을 생성하고 데이터를 입력하세요.
+GRANT CONNECT, resource, unlimited tablespace TO himan100 IDENTIFIED BY 9999;
+-- 비밀번호 설정 변경
+ALTER USER himan200 IDENTIFIED BY 8888 REPLACE 9999;
