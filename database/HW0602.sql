@@ -103,3 +103,62 @@ UPDATE lesson003
 	SET lectroom = '공학관 113'
 	WHERE stdno = 501 AND lesnname = '데이터베이스';
 SELECT * FROM lesson003; -- 데이터베이스 수업의 강의실만 수정됨
+
+
+-- 해설
+CREATE TABLE student004
+AS
+SELECT DISTINCT stdno, stdname, subject, address
+FROM stdlesn;
+SELECT * FROM student004;
+
+CREATE TABLE lesson004
+AS
+SELECT DISTINCT stdno cno, lesnname, lectroom
+FROM stdlesn
+WHERE 1 = 0;
+SELECT * FROM lesson004;
+INSERT INTO lesson004 VALUES (101, '데이터베이스', '공학관 110');
+INSERT INTO lesson004 VALUES (101, '데이터베이스', '공학관 110');
+INSERT INTO lesson004 VALUES (102, '스포츠경영학', '공학관 103');
+INSERT INTO lesson004 VALUES (100, '자료구조', '공학관 111');
+INSERT INTO lesson004 VALUES (100, '자료구조', '공학관 111');
+
+	-- join 하여 전체 내용 출력
+CREATE TABLE signup004(
+	stdno NUMBER,
+	cno NUMBER
+);
+INSERT INTO signup004 values(501, 101);
+INSERT INTO signup004 values(401, 101);
+INSERT INTO signup004 values(402, 102);
+INSERT INTO signup004 values(502, 100);
+INSERT INTO signup004 values(501, 100);
+SELECT * FROM student004;
+SELECT * FROM lesson004;
+SELECT * FROM signup004;
+
+SELECT DISTINCT s.*, l.*
+FROM student004 s, lesson004 l, signup004 u
+WHERE s.stdno = u.stdno
+AND l.cno = u.cno;
+
+
+-- 삭제이상 : 이상현상 발생하지 않음
+--	장미란 데이터 402를 삭제해도 스포츠 경영학이 없어지지 않는다.
+DELETE FROM student004
+WHERE stdno = 402;
+SELECT * FROM student004;
+SELECT * FROM lesson004;
+-- 수정이상 :
+--	박지성(501)의 주소 1 row만 변경해도 모든 조인 데이터에 반영된다.
+UPDATE student004
+	SET address = '대한민국 서울'
+WHERE stdno = 501;
+SELECT * FROM student004;
+SELECT * FROM lesson004;
+-- 삽입이상 :
+--	박세리(403, 박세리)를 삽입하여도 null이 생성되지 않는다.
+INSERT INTO student004 VALUES (403, '박세리', '체육학과', '대한민국 대전');
+SELECT * FROM student004;
+SELECT * FROM lesson004;

@@ -13,20 +13,35 @@
 				- 공통 : jdbc 드라이버
 				- 개별 및 꼭 코드가 추가적으로 필요로 하는 부분 : 개발자 코딩
 		- 필요 접속 정보 : ip, port, sid, 계정, 비밀번호
+				ip : 서버의 network 상 위치, domain 주소도 가능
+				port : 하나의 서버에 여러가지 service를 지원할 때 연결 port 구분하여 처리
+					ex) 오라클서버, 웹서버(8080), 파일서버, 메일서버
 	4) 연동을 위한 핵심 객체와 순서에 대한 이해
 		- 핵심 객체
 			연결 객체 Connection : 접속 정보 + jdbc 드라이버
 			대화 객체 Statement(sql) : sql - DB서버에 이용하는 명령어
+				- SELECT * FROM emp; (서버로부터 결과를 가져오는 명령어)
+				- INSERT INTO 테이블 VALUES .. (서버에 명령으로 등록)
+				- UPDATE 수정, DELETE 삭제
 			결과 객체 ResultSet(data) : 필요로 하는 정보(data)
+				- SELECT 문을 수행한 경우만 이 객체를 사용
+				- 1차적으로 ResultSet로 가져오고, 2차적으로 선언한 기본유형 데이터 타입이나
+				- 문자열 데이터, VO 객체로 입력처리하여 활용한다.
 			자원 해제 위에 나열된 DB서버 접속과 대화 및 결과를 받는 객체들의 자원들을 해제
-				try{}catch, 각 객체의 메모리 자원을 해제
+				- try{}catch, 각 객체의 메모리 자원을 해제
 		- 처리 순서
+			위 핵심 객체를 기준으로 DB 처리
+			연결
+			대화
+			결과받기
+			자원해제
+			
 	5) DB 연동 처리 클래스 구조
 		- 필드 선언 : 핵심 객체들을 필드로 선언하여, 기능 메서드에서 필요로 할 때 사용할 수 있게 선언
 		- 연동 메소드 선언(공통) : DB서버와 연동할 때 사용
 		- 기능 메소드 선언 : 공통 필드와 연동 메소드를 활용해서 sql에 따라서 기능처리 하는 메소드
 	6) 기능 메소드 처리
-		- 연결 처리 공통 메소드
+		- 연결 처리 공통 메소드 : 클래스로 선언해서 호출
 		- 조회 처리 메소드
 		- 등록 처리 메소드
 		- 수정 처리 메소드
@@ -35,9 +50,12 @@
 	
 2. DAO(Database Access Object) 처리 순서
 	1) main()가 있는 class 생성
+		- test용
+		- 외부에서 DAO 클래스를 호출하고 객체로 생성하여 쓰는데 그 전에 자체적으로 처리 확인
 	2) 공통 필드 선언
 	3) 공통 연결 기능 메소드 선언
-	4) 데이터 처리가 객체 형태인 경우 - 단위 VO 클래스 언언
+	4) 데이터 처리가 객체 형태인 경우 - 단위 VO 클래스 선언
+			ResultSet ==> VO
 	5) 기능메소드 선언
 		리턴값 선언
 			- 결과값이 있는 기능 메소드 : DB서버로부터 데이터를 가져오는 경우
@@ -45,3 +63,125 @@
 		메소드명 선언
 		매개변수 선언 : DB에 입력/수정/삭제 처리할 데이터 또는 WHERE에 들어갈 데이터를 선언한다.
 			- 순서에 따른 프로세스 처리
+
+# 기능메소드 처리 순서
+1. 메소드 기본 형식 선언
+	1) 리턴값, 매개변수 결정
+		- 1단계로는 ResultSet 객체를 활용해서 System.ou.println()
+		- 화면 UI의 종류에 따라 가변적으로 처리하려면 VO객체를 리턴값, 매개변수로 처리해야 한다.
+		- 일반적으로 객체형식으로 만들어 처리한다.
+		
+	2) 리턴값과 매개변수가 VO 클래스를 필요로하면 VO 클래스 선언
+		사원정보 : ArrayList<Emp> 형태 리턴
+		조회정보 : Emp sch를 매개변수로 선언
+		ex) public ArrayList<Emp> getEmpList(Emp sch){
+				ArrayList<Emp> list = new ArrayList<Emp>();
+				
+				return list;
+			}
+			조회를 통해 처리되지 않으면 void
+			public void insertEmp(Emp insert){
+			
+			}
+		
+		
+	3) 중괄호 블럭에 처리할 내용({})
+		- 공통 연결 객체 처리할 내용 - DB 접속
+		- 계층형 연동 관계 이해(필드에 사용할 메모리를 선언)
+			접속 ==> 접속한 객체로 대화
+			==> 대화한 객체로 결과 처리 객체
+			==> 결과 객체로 출력 및 VO 객체 할당
+			==> 결과객체 자원해제
+			==> 대화객체 자원해제
+			==> 접속객체 자원해제
+		ps) 접속객체가 setConn() 공통 메소드를 통해서 메모리에 할당되면
+			접속객체 안에 있는 기능메소드를 통해서 대화객체가 만들어진다.
+		- 접속객체를 통한 대화객체(Statement) 만들기
+		- sql 문을 대화객체를 통해서 처리하고 그 결과객체(ResultSet) 가져오기
+		- 결과객체(ResultSet)의 구조에 대한 이해
+			행/열로 된 테이블 형태의 객체이다.
+			.next() : 행 단위로 호출, 데이터가 있는 행일 때는 true, 없는 행일 때는 false
+			.getString("컬럼명"), getInt(index번호)에 대한 이해
+				열 단위로 접근
+			위 기능메소드를 통해서 가져오는 데이터 확인
+			데이터 내용을 VO 객체에 할당 처리.. ArrayList에 할당 처리
+		- ResultSet와 반복문을 통한 처리
+		- 자원의 해제
+		- 예외 처리
+
+# 조회 기능 메소드 처리
+1. 메소드 선언 : 리턴값, 매개변수
+2. 공통 연결 메소드 호출 : setConn();
+3. sql 문자열 선언 : String sql = "select * from emp";
+4. 대화객체 생성 : stmt = con.createStatement();
+5. 결과객체 생성 : rs = stmt.executeQuery(sql);
+6. while()문을 통해 결과객체 출력
+	while(rs.next()){	// 행 단위 호출
+		// 열 단위 호출	SELECT 컬럼명1, 컬럼명2, ... from 테이블
+		// rs.get데이터유형("컬럼명")	컬럼명이 별칭이면 별칭을 입력한다.
+		rs.getInt("empno");
+	}
+7. 자원해제 : rs.close(); / stmt.close(); / con.close();
+8. try{}catch문 예외처리 추가
+	DB 기본 예외 : SQLException
+	일반 예외 : Exception
+	기타 자원해제 : finally{}
+		if(rs != null) rs.close();
+9. main()에서 기능 메소드 호출
+
+# 기능메소드의 리턴값과 매개변수 처리
+1. 리턴값 처리
+	1) 단일데이터 : SELECT count(*) cnt FROM emp
+		위 sql의 결과는 단일 데이터로 할당되는 데이터이기 때문에
+		public int empCnt(){
+			int cnt = 0
+			if(rs.next())
+				cnt = rs.getInt("cnt");
+			
+			return cnt;
+		}
+		
+	2) 단일 row 데이터
+		SELECT *
+		FROM emp
+		WHERE empno = 7780;		// ket값이기에 행이 1 row만 있는 여러 속성
+		- 속성을 VO 클래스로 선언하고, 리턴 객체를 하나의 값으로 처리한다.
+		public Emp getEmp(int empno) {
+			String sql = "select * from emp where empno = " + empno;
+			Emp emp = null;
+			if(rs.next()){
+				emp = new Emp(rs.getEmpno(), rs.getEname(), rs.getJob(), ...);
+			}
+			
+			return emp;
+		}
+		
+	3) 다중 row 데이터(테이블 형태)
+		SELECT * FROM emp
+		
+		public ArrayList<Emp> getEmp(){
+			ArrayList<Emp> list = new ArrayList<Emp>();
+			while(rs.next()){
+				list.add(new Emp(rs.getEmpno(), rs.getEname(), ...));
+			}
+			
+			return list;
+		}
+		
+2. 매개변수 처리
+
+# 기능메소드 처리 핵심
+1. 공통 내용은 에러가 났을 때 처리할 수 있는 능력
+	- copy해서 사용 (이해하고 활용할 수만 있으면 됨)
+2. 핵심 코드
+	0) 메소드 선언 : return 값, 매개변수 값
+	1) sql 작성
+	2)	while(rs.next()){
+			객체 할당
+			rs.getXXX()
+		}
+
+
+
+
+
