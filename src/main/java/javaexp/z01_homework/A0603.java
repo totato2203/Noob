@@ -257,12 +257,9 @@ public class A0603 {
 		//			3) 결과객체 할당하기
 						String sql = "select max(sal) 최고연봉 from emp where deptno = 20";
 						rs = stmt.executeQuery(sql);
-						int cnt = 1;
-						while(rs.next()) {
-							System.out.print(cnt + "행\t" + rs.getDouble("최고연봉") + "\n");
-							cnt++;
-						}
-						maxSal = rs.getDouble("최고연봉");
+						if(rs.next()) {
+							maxSal = rs.getDouble("최고연봉");
+						};
 						// 자원해제(열린 순서 반대 방향)
 						rs.close();
 						stmt.close();
@@ -429,7 +426,7 @@ public class A0603 {
 		A0603 dao = new A0603();
 		dao.salgradeList();
 		dao.maxSalOfDept();
-		dao.Dept20MaxSal(); // 결과 집합을 모두 소모했음 예외 뜨는 이유
+		System.out.println("부서번호가 20인 최고 연봉 : " + dao.Dept20MaxSal());
 		dao.enameJones();
 		dao.maxSalEnameOfHiredate();
 	}
