@@ -7,7 +7,7 @@ public class A07_break_continue {
 		/*
 		# 반복문에서 조건과 함께하는 break와 continue문
 		1. 반복문 안에서 특정 조건일 때, break를 처리하면 반복문의 범위와 상관없이 중단이 된다.
-			(for문, while문, do while문 다 활용된다.
+			(for문, while문, do while문 다 활용된다.)
 		 */
 		for(int cnt = 1; cnt < 100; cnt++) {
 			if(cnt == 20) break;

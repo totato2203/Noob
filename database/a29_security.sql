@@ -51,7 +51,7 @@ ex) orauser200/user200으로 계정과 비밀번호를 선언하여 계정을 �
 	2) 실습 예제
 	grant connect, resource, unlimited tablespace to scott;
 		connect : 접속 권한
-		resource : 자원에 대한 설정 권한
+		resource : 자원에 대한 설정 권한 - 각 객체(테이믈/시퀀스/...)에 대한 사용 권한
 		unlimited tablespace : 실제 저장할 물리적 테이블 저장 공간에 대한 용량 제한 없이 설정
  */
 GRANT CONNECT, resource, unlimited tablespace TO himan100 IDENTIFIED BY 8888;

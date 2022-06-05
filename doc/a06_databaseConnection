@@ -1,16 +1,17 @@
 # java를 통한 데이터베이스 연동 처리
 1. 지식계열화 순서
 	1) java에 대한 이해와 실습
+		클래스/객체 - 필드/생성자/메소드
 		메모리 로딩
 		예외 처리
-	2) sql에 대한 이해와 실습
+	2) sql에 대한 이해와 실습 : 서버의 지원(데이터)를 활용하기 위한 언어
 	3) java 프로그램의 DB 서버 연동 필요 환경 이해
 		- server, client 개념 이해
-			서버 : oracle database server
+			서버 : oracle database server (언제이고 접속하면 데이터를 전달가능 데몬로딩)
 			클라이언트 : java 클라이언트 프로그래밍, 웹 연동 프로그래밍
 		- jdbc 드라이버에 대한 이해
 			접속 시 필요한 프로그래밍
-				- 공통 : jdbc 드라이버
+				- 공통 : jdbc 드라이버(네트워크 통신 프로그램 socket)
 				- 개별 및 꼭 코드가 추가적으로 필요로 하는 부분 : 개발자 코딩
 		- 필요 접속 정보 : ip, port, sid, 계정, 비밀번호
 				ip : 서버의 network 상 위치, domain 주소도 가능
@@ -23,7 +24,7 @@
 				- SELECT * FROM emp; (서버로부터 결과를 가져오는 명령어)
 				- INSERT INTO 테이블 VALUES .. (서버에 명령으로 등록)
 				- UPDATE 수정, DELETE 삭제
-			결과 객체 ResultSet(data) : 필요로 하는 정보(data)
+			결과 객체 ResultSet(data) : 필요로 하는 정보(data) - SELECT 구문
 				- SELECT 문을 수행한 경우만 이 객체를 사용
 				- 1차적으로 ResultSet로 가져오고, 2차적으로 선언한 기본유형 데이터 타입이나
 				- 문자열 데이터, VO 객체로 입력처리하여 활용한다.
@@ -63,6 +64,78 @@
 		메소드명 선언
 		매개변수 선언 : DB에 입력/수정/삭제 처리할 데이터 또는 WHERE에 들어갈 데이터를 선언한다.
 			- 순서에 따른 프로세스 처리
+
+# PreparedStatement 객체를 활용한 데이터 처리
+1. DB 서버의 처리 구조
+	client sql을 전달 받음 ==> 기존에 실행했던 명령어 인지 여부 확인 ==> (sql 명령어를 해석 생략여부)
+	# 기존에 있는 명령어를 그대로 사용하는 경우 실행 속도/ 로딩 속도가 빠르게 처리된다.
+2. WEB 프로그램에서 발생하는 SQL Injection이란
+	로그인 : [     ]
+	패스워드 : [     ]
+		[로그인]
+	String sql = "SELECT user FROM user_table WHERE id = '"+id+"' AND password = '"+pass+"'";
+	SELECT user FROM user_table WHERE id = '세피로트' AND password = '나무';
+	
+	로그인 : [admin]
+	패스워드 : [' OR '1' = '1]
+	' OR '1' = '1
+	SELECT user FROM user_table WHERE id = 'admin' AND password = ' ' or '1' = '1';
+	String sql = "SELECT user FROM user_table WHERE id = '"+id+"' AND password = '"+pass+"'";
+	관리자의 비밀번호를 모르더라도 인증이 되어버리는 현상이 발생한다.
+3. 매개변수값의 처리 방식
+	0) ? 로 데이터 mapping 처리하는 방식을 말한다.
+	1) sql 선언 방식
+		String sql = "select * from emp where empno = ?";
+		위와 같이 ? 있는 sql을 해석하는 과정을 거친다.
+	2) sql 선언된 ?의 mapping 처리
+		psmt.setInt(1, empno);
+		psmt.setString(2, job);
+		상단에 문자열이 조합된 sql을 방지하고, 해당 컬럼과 해당 컬럼에 mapping 될 데이터만 허용하기 때문에
+		 sql injection은 일어나지 않는다!
+		위에 PreparedStatement에서 처리하는 sql은 특정한 컬럼과
+		해당 유형(숫자, 문자열 등)에 맞는 데이터만 mapping하는 것을 허용한다.
+4. 여러가지 예제를 통한 처리하기
+	1) 필드 선언
+		Statement ==> PreparedStatement
+	2) 기능 메소드의 처리 차이
+		- 만들어지면서 sql을 할당처리
+				stmt = con.createStatement();
+				rs = stmt.executeQuery(sql);
+			==>
+				pstmt = con.preparedStatement(sql);
+				rs = pstmt.executeQuery();
+		- ?가 들어갈 데이터를 mapping
+			pstmt.set데이터유형(순번, 데이터)
+			
+# return 객체 설정과 키워드 검색
+1. 데이터 처리 결과 객체의 활용
+	1) ResultSet과 while문에 의해 처리된 내용은 ArrayList형으로 처리하여야
+		여러가지 환경에서 유연하게 처리할 수 있다.
+	2) 처리 순서
+		- sql 작성
+			ex) SELECT * FROM emp WHERE LIKE '%' || 'A' || '%'
+		- 작성된 sql 내용을 단일 데이터/다중 데이터인지 판별
+			단일 : Emp
+			다중 : ArrayList<Emp>
+		- 단위 데이터를 할당할 VO 객체 선언
+			class Emp{
+				private int empno;
+				private String ename;
+				...
+				생성자 : 기본 생성자, 전달값은 전부 받는 생성자
+				get/set() 선언
+			}
+		- 단일 데이터 유형인 경우 - return 유형 단일 객체,
+			public Emp getEmp()
+		- 다중 데이터 유형인 경우 - return 유형 ArrayList<VO>
+			public ArrayList<Emp> getEmpList(){}
+		- while(), if() 중괄호 블럭 객체로 변경 처리
+			list.add(new Emp(rs.getInt("empno"), rs.getString("ename"), ...));
+		- main() 호출 및 테스트 확인
+			ArrayList<Emp> list = dao.getEmpList("A");
+			for(Emp e : list){
+				System.out.print(e.getEmpno + "\t");
+			}
 
 # 기능메소드 처리 순서
 1. 메소드 기본 형식 선언

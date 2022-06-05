@@ -33,7 +33,6 @@ public class A0425 {
 		double height = 181.9;
 		
 		System.out.println("이름 : " + name + ", 나이 : " + age + "세, 키 : " + height + "cm");
-		
 	}
 
 }

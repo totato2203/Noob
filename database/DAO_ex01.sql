@@ -1,5 +1,11 @@
 SELECT * FROM emp;
 -- 조회한 결과와 같은 모양을 ResultSet 객체가 가지고 있다.
+-- .next() : 행 단위로 이동 처리함. - 그 행에 데이터가 있으면 true, 없으면 false
+-- .getString("컬럼명") : 해당 row 상단에 선언된 column명을 기준으로 데이터를 가져온다.
+--		주의, SELECT @@ 최종 컬럼명이기 때문에 alias가 있으면 alias명으로 호출해야 한다.
+--		.get데이터유형()
+--			ex) rs.getInt("empno"), rs.getDate("hiredate"),
+--				sal의 경우 number(4,2)로 실수형이기 때문에 rs.getDouble("sal")
 -- rs.next() : 행 단위로 커서를 위치시켜주고, 해당 행에 데이터가 있으면 true, 없으면 false
 -- rs.next() : 한 번 호출하면 1행(true), 두 번은 2행(true), ..., 12번 호출하면 12행(true),
 --				데이터는 12행까지 밖에 없기 때문에 13번 호출하면 false
@@ -41,6 +47,49 @@ FROM emp
 WHERE job = '" + job + "'"; // job = 'CLERK'; 형태로 sql을 만들어야한다.
  */
 
+SELECT * FROM salgrade;
+
+SELECT ename, sal
+FROM emp
+WHERE sal IN (
+	SELECT max(sal)
+	FROM emp
+	GROUP BY deptno
+);
+
+SELECT max(sal)
+FROM emp
+WHERE deptno = 20;
+
+SELECT *
+FROM emp
+WHERE ename = 'JONES';
+
+-- 분기별 최고급여자
+SELECT ename, sal
+FROM emp
+WHERE sal IN (
+	SELECT max(sal)
+	FROM emp
+	GROUP BY to_char(hiredate, 'Q')
+);
+
+-- String sql = "select count(*) cnt from emp where deptno = " + deptno;
+SELECT count(*) cnt FROM emp WHERE deptno = 10;
+SELECT * FROM emp WHERE deptno = 10;
+-- String sql = "select count(*) cnt from emp where job = '" + job + "'";
+-- job = '" + job + "'" : 변동되는 문자열 job에 다른 sql 결과를 얻기 위해서 이런 형식이 필요하다.
+SELECT count(*) cnt FROM emp WHERE job = 'CLERK';
+SELECT * FROM emp WHERE job = 'CLERK';
+
+-- 부서번호가 20인 최고연봉
+SELECT *
+FROM emp
+WHERE sal = (
+	SELECT max(sal)
+	FROM emp
+	WHERE deptno = 20
+);
 
 
 

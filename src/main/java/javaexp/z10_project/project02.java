@@ -10,16 +10,16 @@ public class project02 {
 		// TODO Auto-generated method stub
 		
 		// 온라인 문의
-		//	 1. 문의하기
+		//	 1. 비회원 문의 등록 및 조회
 		
 		Ask ask01 = new Ask();
-		ask01.insertData();
-		ask01.insertData();
-		ask01.insertData();
-		ask01.searchAsk();
-		ask01.searchAsk();
-		ask01.searchAsk();
-		ask01.searchAsk();
+		ask01.insertData();	// 비회원 문의1 등록
+		ask01.insertData();	// 비회원 문의2 등록
+		ask01.insertData();	// 비회원 문의3 등록
+		ask01.searchAsk();	// 비회원 문의 내역 조회 1
+		ask01.searchAsk();	// 비회원 문의 내역 조회 2
+		ask01.searchAsk();	// 비회원 문의 내역 조회 3
+		ask01.searchAsk();	// 비회원 문의 내역 조회 4
 	}
 
 }

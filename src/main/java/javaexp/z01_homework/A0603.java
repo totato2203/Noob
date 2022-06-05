@@ -257,9 +257,8 @@ public class A0603 {
 		//			3) 결과객체 할당하기
 						String sql = "select max(sal) 최고연봉 from emp where deptno = 20";
 						rs = stmt.executeQuery(sql);
-						if(rs.next()) {
-							maxSal = rs.getDouble("최고연봉");
-						};
+						rs.next();
+						maxSal = rs.getDouble("최고연봉");
 						// 자원해제(열린 순서 반대 방향)
 						rs.close();
 						stmt.close();
@@ -376,12 +375,14 @@ public class A0603 {
 		//			2) 대화객체 만들기
 						stmt = con.createStatement();
 		//			3) 결과객체 할당하기
-						String sql = "select ename, sal from emp where sal in (select max(sal) from emp group by to_char(hiredate, 'Q'))";
+						String sql = "select ename, sal, hiredate, to_char(hiredate, 'Q') qua from emp where sal in (select max(sal) from emp group by to_char(hiredate, 'Q'))";
 						rs = stmt.executeQuery(sql);
 						int cnt = 1;
 						while(rs.next()) {
 							System.out.print(cnt + "행\t" + rs.getString("ename") + "\t");
-							System.out.print(rs.getDouble("sal") + "\n");
+							System.out.print(rs.getDouble("sal") + "\t");
+							System.out.print(rs.getDate("hiredate") + "\t");
+							System.out.print(rs.getString("qua") + "\n");
 							cnt++;
 						}
 						// 자원해제(열린 순서 반대 방향)

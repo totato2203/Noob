@@ -22,13 +22,19 @@ public class A01_Conn {
 			// 2. 특정 서버에 접속정보로 접속 - localhost
 			//		ip, port, sid, 계정, 비번
 			String info = "jdbc:oracle:thin:@localhost:1521:xe";
+			// jdbc:oracle:thin - 위에 저선언한 jdbc 드라이버를 통ㅇ해서
+			// @localhost - 특정 서버에 접속(ip - 외부 접속 시는 127.242.21.243 활용, 현재 com에 있는 서버일 경우 localhost/127.0.0.1)
+			// 1521 - 여러가지 서비스 중에 하나의 port로 접속함 ex) 하나의 com에서 여러 개의 service를 제공하는 서버를 만들 수 있는데,
+			//		이것을 구분하여 외부에서 접속할 때, port를 활용한다.
+			// xe - 데이터베이스의 식별자, 오라클서버 안에서 여러 개의 DB를 만들 수 있다.
 			con = DriverManager.getConnection(info, "scott", "tiger");
+			// scott : 계정, tiger : 비밀번호
 			System.out.println("접속성공!!");
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) { // 클래스파일을 메모리로딩 시켜 사용할 수 있게 만들 때, 필수 예외(컴파일 예외) 처리
 			// TODO Auto-generated catch block
 //			e.printStackTrace();
 			System.out.println("클래스 에러 : " + e.getMessage());
-		} catch (SQLException e) {
+		} catch (SQLException e) { // DB 관련 객체를 처리할 때 예외 처리
 			// TODO Auto-generated catch block
 //			e.printStackTrace();
 			System.out.println("DB 처리 에러 : " + e.getMessage());
