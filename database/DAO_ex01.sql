@@ -91,6 +91,9 @@ WHERE sal = (
 	WHERE deptno = 20
 );
 
+SELECT *
+FROM emp
+WHERE ename LIKE '%' || 'A' || '%';
 
 
 
