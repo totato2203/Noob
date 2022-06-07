@@ -267,7 +267,6 @@ public class A04_PreDAO {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, ename);
 			rs = pstmt.executeQuery();
-			int cnt = 1;
 			while(rs.next()) {
 				empList.add(new Emp(
 					rs.getInt("empno"),

@@ -95,5 +95,24 @@ SELECT *
 FROM emp
 WHERE ename LIKE '%' || 'A' || '%';
 
+-- [1단계:확인] 3. 연봉이 범위(@@~@@) 사이이고, 부서별로 검색하는 사원 정보를 PreparedStament 로 처리하여 결과를 출력하세요
+SELECT *
+FROM emp
+WHERE deptno = 10 AND sal >= 1000 AND sal <= 3000;
+
+-- [1단계:확인] 4. 사원명과 부서명을 키워드검색(like,%활용)하여, 부서명, 사원명, 사원번호, 급여를 출력 하게 하세요.(PreparedStament)
+SELECT dname, ename, empno, sal
+FROM EMP e , DEPT d
+WHERE e.deptno = d.deptno
+AND ename LIKE '%' || 'A' || '%'
+AND dname LIKE '%' || 'A' || '%'; 
+
+SELECT *
+FROM dept;
+
+
+
+
+
 
 
