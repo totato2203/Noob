@@ -78,7 +78,7 @@ SELECT * FROM emp114;
  */
 SELECT * FROM emp100;
 ALTER TABLE emp100
-ADD (empno number);
+ADD empno NUMBER;
 ALTER TABLE emp100
 ADD (job varchar2(50) DEFAULT '직책없음');
 ALTER TABLE emp100

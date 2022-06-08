@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class project02 {
+public class project02_Ask {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -16,10 +16,9 @@ public class project02 {
 		ask01.insertData();	// 비회원 문의1 등록
 		ask01.insertData();	// 비회원 문의2 등록
 		ask01.insertData();	// 비회원 문의3 등록
-		ask01.searchAsk();	// 비회원 문의 내역 조회 1
-		ask01.searchAsk();	// 비회원 문의 내역 조회 2
-		ask01.searchAsk();	// 비회원 문의 내역 조회 3
-		ask01.searchAsk();	// 비회원 문의 내역 조회 4
+		ask01.searchAsk();	// 비회원 문의 내역 조회
+		ask01.searchAsk();	// 비회원 문의 내역 조회
+		ask01.searchAsk();	// 비회원 문의 내역 조회
 	}
 
 }
@@ -32,9 +31,7 @@ class Ask{
 	private String contents;	// 내용
 	ArrayList<Ask> alist = new ArrayList<Ask>();
 	Scanner sc = new Scanner(System.in);
-	public Ask() {
-		
-	}
+	public Ask() {}
 	public Ask(String var, String name, String phone, String email, String password, String contents) {
 		this.var = var;
 		this.name = name;
@@ -60,15 +57,6 @@ class Ask{
 		alist.add(new Ask(var, name, phone, email, password, contents));
 		
 		System.out.println("문의 등록 완료!!\n");
-	}
-	public void showAsk() {
-		System.out.println("\n# 문의 내역 #");
-		System.out.println("문의 유형 : "  + alist.get(0).var);
-		System.out.println("이름 : " + alist.get(0).name);
-		System.out.println("전화번호 : " + alist.get(0).phone);
-		System.out.println("이메일 : " + alist.get(0).email);
-		System.out.println("비밀번호 : " + alist.get(0).password);
-		System.out.println("문의 내용 : " + alist.get(0).contents + "\n");		
 	}
 	public void searchAsk() {
 		String name2;

@@ -1,24 +1,22 @@
 package javaexp.z03_vo;
 
-import java.util.Date;
-
-public class Emp {
+public class Emp01 {
 	private int empno;
 	private String ename;
 	private String job;
 	private int mgr;
-	private Date hiredate;
+	private String hiredate_s;
 	private double sal;
 	private double comm;
 	private int deptno;
-	public Emp() {}
-	public Emp(int empno, String ename, String job, int mgr, Date hiredate, double sal, double comm, int deptno) {
+	public Emp01() {}
+	public Emp01(int empno, String ename, String job, int mgr, String hiredate_s, double sal, double comm, int deptno) {
 		super();
 		this.empno = empno;
 		this.ename = ename;
 		this.job = job;
 		this.mgr = mgr;
-		this.hiredate = hiredate;
+		this.hiredate_s = hiredate_s;
 		this.sal = sal;
 		this.comm = comm;
 		this.deptno = deptno;
@@ -47,11 +45,11 @@ public class Emp {
 	public void setMgr(int mgr) {
 		this.mgr = mgr;
 	}
-	public Date getHiredate() {
-		return hiredate;
+	public String getHiredate_s() {
+		return hiredate_s;
 	}
-	public void setHiredate(Date hiredate) {
-		this.hiredate = hiredate;
+	public void setHiredate_s(String hiredate_s) {
+		this.hiredate_s = hiredate_s;
 	}
 	public double getSal() {
 		return sal;

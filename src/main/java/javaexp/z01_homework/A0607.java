@@ -32,6 +32,15 @@ public class A0607 {
 		 */
 		
 //		[1단계:확인] 3. 연봉이 범위(@@~@@) 사이이고, 부서별로 검색하는 사원 정보를 PreparedStament 로 처리하여 결과를 출력하세요
+		/*
+		1) sql 작성
+		2) DAO 기능 메소드 선언
+			- VO 생성 확인
+			- 리턴값 매개변수 확인
+		3) 기본 메소드 복사
+		4) sql 선언, pstmt.setXXXX() 설정
+		5) ResultSet 선언
+		 */
 		A0607 dao = new A0607();
 		dao.showEmp3(10, 1000, 3000);
 		
@@ -175,11 +184,8 @@ public class A0607 {
 	public void showEmp3(int deptno, double lowsal, double hisal) {
 		try {
 			setConn();
-			String sql = "SELECT * FROM emp WHERE deptno = ? AND sal >= ? AND sal <= ?";
+			String sql = "SELECT * FROM emp WHERE deptno = '" + deptno + "' AND sal >= '" + lowsal + "' AND sal <= '" + hisal + "'";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, deptno);
-			pstmt.setDouble(2, lowsal);
-			pstmt.setDouble(3, hisal);
 			rs = pstmt.executeQuery();
 			
 			int cnt = 1;

@@ -47,7 +47,7 @@
 	4) bfile : 대용량의 바이너리 데이터를 파일 형태로 저장하기 위한 데이터 타입 최대 크기 4GB
 	5) *timestamp(n) : date 데이터 타입의 확장된 형태, n은 milli second 자리수로 최대 9자리까지 표현가능
 	6) interval year to month : 년과 월을 이용하여 기간을 저장
-	7) interval day to second : 일, 시, ㅅ분, 초를 이용하여 기간을 저장, 두 날짜 값의 정확한 차이를 표현하는데 유용
+	7) interval day to second : 일, 시, 분, 초를 이용하여 기간을 저장, 두 날짜 값의 정확한 차이를 표현하는데 유용
  */
 -- 회원 정보 테이블		921212-1702611
 CREATE TABLE member101(
