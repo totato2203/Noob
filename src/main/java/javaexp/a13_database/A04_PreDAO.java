@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javaexp.z03_vo.Dept;
 
@@ -310,8 +312,6 @@ public class A04_PreDAO {
 			return deptList;
 		}
 	
-// # return 객체 설정과 키워드 검색
-	
 	public ArrayList<Emp> getEmpList(String ename) {
 		ArrayList<Emp> empList = new ArrayList<Emp>();
 		try {
@@ -584,11 +584,83 @@ public class A04_PreDAO {
 				}
 			}
 
+	public ArrayList<Emp> getEmpList(Map<String, String> map) {
+				ArrayList<Emp> empList = new ArrayList<Emp>();
+				try {
+					setConn();
+					String sql = "SELECT *\r\n"
+							+ "FROM emp\r\n"
+							+ "WHERE ename LIKE '%' || ? || '%'\r\n"
+							+ "AND job LIKE '%' || ? || '%'";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, map.get("ename"));
+					pstmt.setString(1, map.get("job"));
+					rs = pstmt.executeQuery();
+					while(rs.next()) {
+						empList.add(new Emp(
+							rs.getInt("empno"),
+							rs.getString("ename"),
+							rs.getString("job"),
+							rs.getInt("mgr"),
+							rs.getDate("hiredate"),
+							rs.getDouble("sal"),
+							rs.getDouble("comm"),
+							rs.getInt("deptno"))
+						);
+					}
+					rs.close();
+					pstmt.close();
+					con.close();
+				} catch (SQLException e) {
+					System.out.println("DB 에러: " + e.getMessage());
+				} catch (Exception e) {
+					System.out.println("일반 예외 : " + e.getMessage());
+				}finally {
+					if(rs != null) {
+						try {
+							rs.close();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+					if(pstmt != null) {
+						try {
+							pstmt.close();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+					if(con != null) {
+						try {
+							con.close();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+				return empList;
+			}
+
 	public static void main(String[] args) {
 		// 실제는 외부에서 위 DAO의 특정한 객체를 호출하는데,
 		// 그 전에 테스트로 main()에서 객체를 생성해본다.
 		
 		A04_PreDAO dao = new A04_PreDAO();
+		
+		Map<String, String> sch = new HashMap<String, String>();
+		sch.put("ename", "A");
+		sch.put("job", "");
+		
+		ArrayList<Emp> empList = dao.getEmpList(sch);
+		for(Emp e : empList) {
+			System.out.print(e.getEmpno() + "\t");
+			System.out.print(e.getEname() + "\t");
+			System.out.print(e.getJob() + "\t");
+			System.out.print(e.getMgr() + "\t");
+			System.out.print(e.getHiredate() + "\t");
+			System.out.print(e.getComm() + "\t");
+			System.out.print(e.getDeptno() + "\n");
+		}
 		
 		dao.showEmp();
 		

@@ -147,6 +147,9 @@ DELETE FROM emp01
 WHERE empno = ?
  */
 
-
-
+SELECT * FROM emp;
+SELECT * FROM dept01;
+CREATE TABLE dept01 AS SELECT * FROM dept;
+INSERT INTO dept01 VALUES (10, 'SALES', 'DALLAS');
+--INSERT INTO dept01 VALUES (?, ?, ?)
 

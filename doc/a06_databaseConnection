@@ -252,12 +252,27 @@
 2. 추가 코드
 	1) con.setAutocommit(false)
 		자동 commit을 방지
-	2) ResultSet은 사용하지 않음
+	2) ResultSet은 사용하지 않음 - rs 코드는 삭제, 예외 처리 포함
 	3) pstmt.executeUpdate();
 	4) 완료 시, conn.commit() 처리
 		이후 	pstmt.close();
 				con.close();
-	5) 예외 발생 시, conn.rollback()
+	5) 예외 발생 시, conn.rollback() - 중간에 문제가 발생 시 롤백
+
+# 주요 에러 내용과 대응
+1. 에러 내용
+	DB 에러:ORA-00903: invalid table name :
+	DB 에러:ORA-00933: SQL command not properly ended
+		sql 문제
+	DB 에러:부적합한 열 인덱스
+		선언된 sql의 ?와 pstmt.setXXX(1, @@@)의 개수나 타입이 맞지 않을 때
+
+2. 점검할 부분(DB 관련 에러를 줄이기 위해서)
+	1) sql을 반드시 실행한 후 적용하기 바랍니다.
+		- 실행한 내용을 변경하지 않고 적용
+	2) System.out.println(sql);으로 실행된 sql을 확인
+	3) ?의 순서와 type을 점검하고 진행
+	4) 코드 순서는 사전에 정리된 내용으로 진행
 
 # 기능메소드 처리 순서
 1. 메소드 기본 형식 선언
