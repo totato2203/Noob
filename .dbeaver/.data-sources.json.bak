@@ -6,7 +6,7 @@
 			"driver": "oracle_thin",
 			"name": "xe",
 			"save-password": true,
-			"read-only": true,
+			"read-only": false,
 			"configuration": {
 				"host": "localhost",
 				"port": "1521",
