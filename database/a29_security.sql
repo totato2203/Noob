@@ -60,3 +60,15 @@ GRANT CONNECT, resource, unlimited tablespace TO himan100 IDENTIFIED BY 8888;
 GRANT CONNECT, resource, unlimited tablespace TO himan100 IDENTIFIED BY 9999;
 -- 비밀번호 설정 변경
 ALTER USER himan200 IDENTIFIED BY 8888 REPLACE 9999;
+
+/*
+# 서버 담당자 pc에서 system/1111 계정으로 접근해서
+1. 프로젝트에서 사용할 계정을 위와 같이 만들고
+GRANT CONNECT, resource, unlimited tablespace TO project01 IDENTIFIED BY 1111;
+2. 접속해서 간단하게 테이블을 만든 후, 외부에서 접속해서
+데이터베이스를 사용할 수 있는지 여부를 확인한다.
+
+conn project01/1111;
+create table tab01(name varchar2(50));
+insert into tab01 values('홍길동');
+*/

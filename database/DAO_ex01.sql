@@ -148,8 +148,22 @@ WHERE empno = ?
  */
 
 SELECT * FROM emp;
+SELECT * FROM emp01;
 SELECT * FROM dept01;
 CREATE TABLE dept01 AS SELECT * FROM dept;
 INSERT INTO dept01 VALUES (10, 'SALES', 'DALLAS');
 --INSERT INTO dept01 VALUES (?, ?, ?)
 
+insert into emp values(1000, '홍길동', '사원', 7780, to_date('2020-06-21', 'YYYY-MM-DD'), 3500, 1000, 10);
+DELETE FROM emp WHERE empno = 1000;
+
+CREATE TABLE member(
+	id varchar2(50),
+	pw varchar2(50),
+	name varchar(50),
+	point NUMBER,
+	auth varchar2(20)
+);
+SELECT * FROM MEMBER;
+
+SELECT * FROM usertable;
